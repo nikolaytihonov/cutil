@@ -18,7 +18,7 @@ void list_clear(list_t* list)
         do {
             next = node->next;
             cu_free(node);
-        } while(node = next);
+        } while (node = next);
     }
     list->first = NULL;
     list->last = NULL;
