@@ -55,3 +55,12 @@ void list_remove(list_t* list, list_node_t* node)
     list->count--;
     cu_free(node);
 }
+
+list_node_t* list_at(list_t* list, uint idx)
+{
+    list_node_t* node = list->first;
+    if (!idx) return node;
+    else if (idx >= list->count) return NULL;
+    while (idx--) node = node->next;
+    return node;
+}

@@ -25,6 +25,7 @@ void list_clear(list_t* list);
 
 void list_add(list_t* list, uint size, void* data);
 void list_remove(list_t* list, list_node_t* node);
+list_node_t* list_at(list_t* list, uint idx);
 
 #define CU_LIST_FOREACH(list)  \
     for(list_node_t* i = (list)->first; i; i = i->next)
