@@ -1,15 +1,12 @@
 #include "array.h"
 #include "cutil.h"
 
-void array_init(array_t* array, uint size, uint align, uint reserve)
+void array_init(array_t* array, uint size, uint align)
 {
-    uint capacity = reserve
-        ? (reserve / align + !!(reserve % align)) * align
-        : align;
+    array->mem = NULL;
     array->size = size;
     array->count = 0;
     array->align = align;
-    array_alloc(array, capacity);
 }
 
 void array_alloc(array_t* array, uint newCount)
@@ -30,4 +27,9 @@ void array_clear(array_t* array)
     }
     array->size = 0;
     array->align = 0;
+}
+
+void array_push(array_t* array, const void* data)
+{
+
 }
