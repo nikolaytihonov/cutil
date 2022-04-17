@@ -9,7 +9,7 @@
 #define CUTIL_FREE free
 
 extern void* (*cu_malloc)(size_t);
-extern void* (*cu_relloac)(void*, size_t);
+extern void* (*cu_realloc)(void*, size_t);
 extern void* (*cu_free)(void*);
 
 #endif

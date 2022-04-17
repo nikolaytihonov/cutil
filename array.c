@@ -1,26 +1,33 @@
 #include "array.h"
 #include "cutil.h"
 
-array_t* array_create(uint size, uint align, uint reserve)
+void array_init(array_t* array, uint size, uint align, uint reserve)
 {
     uint capacity = reserve
         ? (reserve / align + !!(reserve % align)) * align
         : align;
-    array_t* array = (array_t*)cu_malloc(CU_ARRAY_HEAD_SIZE + capacity*size);
-    if (!array) return NULL;
-
     array->size = size;
     array->count = 0;
     array->align = align;
-    return array;
+    array_alloc(array, capacity);
 }
 
-void array_delete(array_t* array)
+void array_alloc(array_t* array, uint newCount)
 {
-    cu_free(array);
+    size_t size = newCount*array->size;
+    if (array->count) array->mem = cu_realloc(array->mem, size);
+    else array->mem = cu_malloc(size);
+    array->count = array->mem ? newCount : 0;
 }
 
-void* array_push(array_t* array, const void* data)
+void array_clear(array_t* array)
 {
-    
+    if (array->count)
+    {
+        cu_free(array->mem);
+        array->mem = NULL;
+        array->count = 0;
+    }
+    array->size = 0;
+    array->align = 0;
 }
