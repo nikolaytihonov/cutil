@@ -5,11 +5,13 @@ set(HEADERS
     cutypes.h
     cutil.h
     list.h
+    array.h
 )
 
 set(SOURCES
     cutil.c
     list.c
+    array.c
 )
 
 add_library(cutil STATIC ${SOURCES} ${HEADERS})
