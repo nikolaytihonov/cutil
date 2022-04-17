@@ -29,7 +29,20 @@ void array_clear(array_t* array)
     array->align = 0;
 }
 
+static uint array_align(array_t* array, uint count)
+{
+    return (count / array->align + !!(count % array->align)) * array->align;
+}
+
 void array_push(array_t* array, const void* data)
+{
+    if (!(array->count % array->align))
+        array_alloc(array, array->count + 1);
+    else array->count++;
+    cu_memcpy(array_last(array), data, array->size);
+}
+
+void array_pop(array_t* array, void* src)
 {
 
 }

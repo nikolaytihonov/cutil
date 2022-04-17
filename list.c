@@ -29,10 +29,10 @@ void list_add(list_t* list, uint size, void* data)
 {
     uint nodeSize = LIST_NODE_SIZE + size;
     list_node_t* node = (list_node_t*)cu_malloc(nodeSize);
-    memset(node, '\0', nodeSize);
+    cu_memset(node, '\0', nodeSize);
     if (data)
     {
-        memcpy((uint8_t*)node + LIST_NODE_SIZE, data, size);
+        cu_memcpy((uint8_t*)node + LIST_NODE_SIZE, data, size);
     }
 
     list_node_t* last = list->last;
