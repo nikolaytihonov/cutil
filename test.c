@@ -37,7 +37,9 @@ int main()
         uint num = i;
         array_push(&array, &i);
     }
-    array_pop(&array, NULL);
+    uint num = 42;
+    array_remove(&array, 0);
+    array_insert(&array, 1, &num);
 
     CU_ARRAY_FOREACH(&array)
     {

@@ -55,3 +55,26 @@ void array_pop(array_t* array, void* src)
         array_resize(array, array->count - 1);
     }
 }
+
+void array_insert(array_t* array, uint idx, const void* data)
+{
+    array_resize(array, array->count + 1);
+    uint move = array->count - idx - 1;
+    if (move)
+    {
+        cu_memmove(array_at(array, idx + 1),
+            array_at(array, idx), move*array->size);
+    }
+    cu_memcpy(array_at(array, idx), data, array->size);
+}
+
+void array_remove(array_t* array, uint idx)
+{
+    uint move = array->count - idx - 1;
+    if (move)
+    {
+        cu_memmove(array_at(array, idx),
+            array_at(array, idx + 1), move*array->size);
+    }
+    array_resize(array, array->count - 1);
+}

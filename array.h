@@ -25,5 +25,7 @@ void array_resize(array_t* array, uint newCount);
 
 void array_push(array_t* array, const void* data);
 void array_pop(array_t* array, void* src);
+void array_insert(array_t* array, uint idx, const void* data);
+void array_remove(array_t* array, uint idx);
 
 #endif
