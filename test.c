@@ -3,6 +3,7 @@
 #include <time.h>
 #include "list.h"
 #include "array.h"
+#include "bitmap.h"
 
 int main()
 {
@@ -50,5 +51,9 @@ int main()
     printf("%p\t%d\t%d\t%d\n", array.mem,
         array.size, array.count, array.align);
     array_clear(&array);
+
+    printf("[bitmap]\n");
+    printf("bit_align2\t%u\n", bit_align2(354, 3));
+    printf("bit_log2\t%u\n", bit_log2(34));
     return 0;
 }

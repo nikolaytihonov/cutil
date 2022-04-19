@@ -10,4 +10,6 @@ typedef unsigned int uint;
 typedef void* cu_ptr;
 #define CU_PTR_SIZE sizeof(cu_ptr)
 
+#define cu_align(value, align) (((value / align) + !!(value % align))*align)
+
 #endif

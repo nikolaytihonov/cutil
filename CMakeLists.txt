@@ -6,12 +6,14 @@ set(HEADERS
     cutil.h
     list.h
     array.h
+    bitmap.h
 )
 
 set(SOURCES
     cutil.c
     list.c
     array.c
+    bitmap.c
 )
 
 add_library(cutil STATIC ${SOURCES} ${HEADERS})

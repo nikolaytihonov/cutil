@@ -23,7 +23,7 @@ void array_clear(array_t* array)
 
 uint array_align(array_t* array, uint count)
 {
-    return (count / array->align + !!(count % array->align)) * array->align;
+    return cu_align(count, array->align);
 }
 
 void array_resize(array_t* array, uint newCount)
