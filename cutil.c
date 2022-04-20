@@ -25,7 +25,7 @@ enum cu_arch_e cutil_arch()
     return ARM7A;
 #elif defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7S__)
     return ARM7R;
-#elif defined(__ARM_ARCH_7M__)
+#elif defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
     return ARM7M;
 #elif defined(__ARM_ARCH_7S__)
     return ARM7S;
