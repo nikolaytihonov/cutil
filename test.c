@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "cutil.h"
 #include "list.h"
 #include "array.h"
 #include "bitmap.h"
 
 int main()
 {
+    cutil_init();
     printf("[list]\n");
     list_t list;
     list_init(&list);
@@ -71,5 +73,10 @@ int main()
     printf("bitmap\t%u\t%u\n", bitmap_get(m, 0), bitmap_get(m, 64));
     bitmap_set(m, 5, 0);
     printf("bitmap\t%u\n", bitmap_get(m, 5));
+
+    printf("[cutil]\n");
+    printf("cutil_arch\t%u\n", cutil_arch());
+
+    cutil_exit();
     return 0;
 }
