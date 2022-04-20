@@ -15,5 +15,7 @@ uint bit_log2(uint64_t value);
     bit_set((m)[p>>CU_WORD_POW2], p&((1<<CU_WORD_POW2)-1), b)
 #define bitmap_get(m, p)    \
     bit_get((m)[p>>CU_WORD_POW2], p&((1<<CU_WORD_POW2)-1))
+#define bitmap_test(m, p)   \
+    bit_test((m)[p>>CU_WORD_POW2], p&((1<<CU_WORD_POW2)-1))
 
 #endif
