@@ -52,8 +52,24 @@ int main()
         array.size, array.count, array.align);
     array_clear(&array);
 
+    printf("[cutypes]\n");
+    printf("uword\t%u\n", sizeof(uword) * 8);
+    printf("uint\t%u\n", sizeof(uint) * 8);
+
     printf("[bitmap]\n");
     printf("bit_align2\t%u\n", bit_align2(354, 3));
     printf("bit_log2\t%u\n", bit_log2(34));
+    num = 5;
+    bit_set(num, 1, 1);
+    printf("bit_get\t%u\n", bit_get(num, 0));
+    printf("num\t%u\n", num);
+    bitmap(m, 128);
+    bitmap_set(m, 0, 1);
+    bitmap_set(m, 5, 1);
+    bitmap_set(m, 64, 1);
+    printf("bitmap\t%u\t%u\n", m[0], m[1]);
+    printf("bitmap\t%u\t%u\n", bitmap_get(m, 0), bitmap_get(m, 64));
+    bitmap_set(m, 5, 0);
+    printf("bitmap\t%u\n", bitmap_get(m, 5));
     return 0;
 }
