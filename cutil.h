@@ -4,32 +4,6 @@
 #include "cutypes.h"
 #include <stdlib.h>
 
-enum cu_arch_e {
-    ARCH_UNKNOWN = 0,
-    x86_64,
-    x86_32,
-    ARM2,
-    ARM3,
-    ARM4T,
-    ARM5,
-    ARM6T2,
-    ARM6,
-    ARM7,
-    ARM7A,
-    ARM7R,
-    ARM7M,
-    ARM7S,
-    AARCH64,
-    MIPS,
-    SUPERH,
-    POWERPC,
-    POWERPC64,
-    SPARC,
-    M68K,
-};
-
-enum cu_arch_e cutil_arch();
-
 #define CUTIL_MALLOC malloc
 #define CUTIL_REALLOC realloc
 #define CUTIL_FREE free

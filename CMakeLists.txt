@@ -16,7 +16,6 @@ set(SOURCES
     bitmap.c
 )
 
-add_compile_definitions(CU_64BIT)
 add_library(cutil STATIC ${SOURCES} ${HEADERS})
 
 add_executable(test test.c)

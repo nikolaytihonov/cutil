@@ -75,7 +75,7 @@ int main()
     printf("bitmap\t%u\n", bitmap_get(m, 5));
 
     printf("[cutil]\n");
-    printf("cutil_arch\t%u\n", cutil_arch());
+    printf("cutil_arch\t%u\n", CU_ARCH);
 
     cutil_exit();
     return 0;
