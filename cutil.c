@@ -1,4 +1,5 @@
 #include "cutil.h"
+#include "endian.h"
 #include <string.h>
 
 void* (*cu_malloc)(size_t);
@@ -10,6 +11,8 @@ void* (*cu_memmove)(void*,const void*,size_t);
 
 void cutil_init()
 {
+    cu_endian_init();
+
     cu_malloc = CUTIL_MALLOC;
     cu_realloc = CUTIL_REALLOC;
     cu_free = CUTIL_FREE;

@@ -89,7 +89,7 @@ typedef int64_t iword;
 typedef uint32_t uword;
 typedef int32_t iword;
 #else
-#   warning "define CU_32BIT or CU_64BIT"
+#   warning "unknown bus width for arch " CU_ARCH
 #endif
 
 typedef uint32_t uint;

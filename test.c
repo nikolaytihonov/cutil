@@ -5,6 +5,7 @@
 #include "list.h"
 #include "array.h"
 #include "bitmap.h"
+#include "endian.h"
 
 int main()
 {
@@ -76,6 +77,7 @@ int main()
 
     printf("[cutil]\n");
     printf("cutil_arch\t%u\n", CU_ARCH);
+    printf("cutil_endian\t%u\n", cu_endian);
 
     cutil_exit();
     return 0;
