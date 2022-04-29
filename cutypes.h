@@ -4,29 +4,27 @@
 #include <stddef.h>
 #include <stdint.h>
 
-enum cu_arch_e {
-    ARCH_UNKNOWN = 0,
-    x86_64,
-    x86_32,
-    ARM2,
-    ARM3,
-    ARM4T,
-    ARM5,
-    ARM6T2,
-    ARM6,
-    ARM7,
-    ARM7A,
-    ARM7R,
-    ARM7M,
-    ARM7S,
-    AARCH64,
-    MIPS,
-    SUPERH,
-    POWERPC,
-    POWERPC64,
-    SPARC,
-    M68K,
-};
+#define ARCH_UNKNOWN    0
+#define x86_64          1
+#define x86_32          2
+#define ARM2            3
+#define ARM3            4
+#define ARM4T           5
+#define ARM5            6
+#define ARM6T2          7
+#define ARM6            8
+#define ARM7            9
+#define ARM7A           10
+#define ARM7R           11
+#define ARM7M           12
+#define ARM7S           13
+#define AARCH64         14
+#define MIPS            15
+#define SUPERH          16
+#define POWERPC         17
+#define POWERPC64       18
+#define SPARC           19
+#define M68K            20
 
 #if defined(__x86_64__) || defined(_M_X64)
 #   define CU_ARCH x86_64
@@ -70,6 +68,25 @@ enum cu_arch_e {
 #   define CU_ARCH M68K
 #else
 #   define CU_ARCH ARCH_UNKNOWN;
+#endif
+
+#if (CU_ARCH == x86_64 || CU_ARCH == x86_32)
+#   define CU_ARCH_X86
+#elif (CU_ARCH >= ARM2 && CU_ARCH <= AARCH64)
+#   define CU_ARCH_ARM
+#   define CU_ARCH_ARM_ARCH __ARM_ARCH
+#elif (CU_ARCH == MIPS)
+#   define CU_ARCH_MIPS
+#elif (CU_ARCH == SUPERH)
+#   define CU_ARCH_SUPERH
+#elif (CU_ARCH == POWERPC || CU_ARCH == POWERPC64)
+#   define CU_ARCH_POWERPC
+#elif (CU_ARCH == SPARC)
+#   define CU_ARCH_SPARC
+#elif (CU_ARCH == M68K)
+#   define CU_ARCH_M68K
+#else
+#   warning "unknown architecture"
 #endif
 
 #if (CU_ARCH == x86_64 || CU_ARCH == AARCH64 || CU_ARCH == POWERPC64)

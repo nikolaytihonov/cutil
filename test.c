@@ -77,7 +77,11 @@ int main()
 
     printf("[cutil]\n");
     printf("cutil_arch\t%u\n", CU_ARCH);
+
+    printf("[endian]\n");
     printf("cutil_endian\t%u\n", cu_endian);
+    printf("%x\t%x\n", 0x12345678, cu_bswap32(0x12345678));
+    printf("%lx\t%lx\n", 0x12345678abcd8765, cu_bswap64(0x12345678abcd8765));
 
     cutil_exit();
     return 0;
