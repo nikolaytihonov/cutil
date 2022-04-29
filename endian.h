@@ -6,8 +6,7 @@
 enum cu_endian_e {
     LittleEndian,
     BigEndian,
-    PDPEndian,
-    HoneywellEndian
+    MiddleEndian
 };
 
 extern enum cu_endian_e cu_endian;
