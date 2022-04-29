@@ -12,11 +12,16 @@ static const union {
 #define ORDER_LITTLE_ENDIAN     0x03020100
 #define ORDER_BIG_ENDIAN        0x00010203
 
-void cu_endian_init()
+static enum cu_endian_e endian_detect()
 {
     if (host_order.value == ORDER_LITTLE_ENDIAN)
-        cu_endian = LittleEndian;
+        return LittleEndian;
     else if (host_order.value == ORDER_BIG_ENDIAN)
-        cu_endian = BigEndian;
-    else cu_endian = MiddleEndian;
+        return BigEndian;
+    else return MiddleEndian;
+}
+
+void cu_endian_init()
+{
+    cu_endian = endian_detect();
 }
