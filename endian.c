@@ -28,22 +28,22 @@ static uint16_t sw_bswap16(uint16_t val)
 
 static uint32_t sw_bswap32(uint32_t val)
 {
-    return  ((val >> 24) & 0xFF) << 0
-        |   ((val >> 16) & 0xFF) << 8
-        |   ((val >> 8) & 0xFF) << 16
-        |   ((val >> 0) & 0xFF) << 24;
+    return  (val & 0xFF000000U) >> 24
+        |   (val & 0x00FF0000U) >> 8
+        |   (val & 0x0000FF00U) << 8
+        |   (val & 0x000000FFU) << 24;
 }
 
 static uint64_t sw_bswap64(uint64_t val)
 {
-    return  ((val >> 56) & 0xFF) << 0
-        |   ((val >> 48) & 0xFF) << 8
-        |   ((val >> 40) & 0xFF) << 16
-        |   ((val >> 32) & 0xFF) << 24
-        |   ((val >> 24) & 0xFF) << 32
-        |   ((val >> 16) & 0xFF) << 40
-        |   ((val >> 8) & 0xFF) << 48
-        |   ((val >> 0) & 0xFF) << 56;
+    return  (val & 0xFF00000000000000UL) >> 56
+        |   (val & 0x00FF000000000000UL) >> 40
+        |   (val & 0x0000FF0000000000UL) >> 24
+        |   (val & 0x000000FF00000000UL) >> 8
+        |   (val & 0x00000000FF000000UL) << 8
+        |   (val & 0x0000000000FF0000UL) << 24
+        |   (val & 0x000000000000FF00UL) << 40
+        |   (val & 0x00000000000000FFUL) << 56;
 }
 
 #include <stdio.h>
@@ -51,5 +51,6 @@ static uint64_t sw_bswap64(uint64_t val)
 void cu_endian_init()
 {
     cu_endian = endian_detect();
+    printf("%x\t%x\n", 0x12345678, sw_bswap32(0x12345678));
     printf("%lx\t%lx\n", 0x12345678abcd8765, sw_bswap64(0x12345678abcd8765));
 }
