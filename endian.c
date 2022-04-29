@@ -18,7 +18,6 @@ static enum cu_endian_e endian_detect()
         return LittleEndian;
     else if (host_order.value == ORDER_BIG_ENDIAN)
         return BigEndian;
-    else return MiddleEndian;
 }
 
 static uint16_t sw_bswap16(uint16_t val)
@@ -78,7 +77,71 @@ bswap32_t cu_bswap32 = sw_bswap32;
 bswap64_t cu_bswap64 = sw_bswap64;
 #endif
 
+static uint16_t no_bswap16(uint16_t val)
+{
+    return val;
+}
+
+static uint32_t no_bswap32(uint32_t val)
+{
+    return val;
+}
+
+static uint64_t no_bswap64(uint64_t val)
+{
+    return val;
+}
+
+bswap16_t h16tol16 = no_bswap16;
+bswap32_t h32tol32 = no_bswap32;
+bswap64_t h64tol64 = no_bswap64;
+bswap16_t l16toh16 = no_bswap16;
+bswap32_t l32toh32 = no_bswap32;
+bswap64_t l64toh64 = no_bswap64;
+
+bswap16_t h16tob16 = no_bswap16;
+bswap32_t h32tob32 = no_bswap32;
+bswap64_t h64tob64 = no_bswap64;
+bswap16_t b16toh16 = no_bswap16;
+bswap32_t b32toh32 = no_bswap32;
+bswap64_t b64toh64 = no_bswap64;
+
+bswap16_t h16ton16 = no_bswap16;
+bswap32_t h32ton32 = no_bswap32;
+bswap64_t h64ton64 = no_bswap64;
+bswap16_t n16toh16 = no_bswap16;
+bswap32_t n32toh32 = no_bswap32;
+bswap64_t n64toh64 = no_bswap64;
+
 void cu_endian_init()
 {
     cu_endian = endian_detect();
+    if (cu_endian == LittleEndian)
+    {
+        h16tob16 = cu_bswap16;
+        h32tob32 = cu_bswap32;
+        h64tob64 = cu_bswap64;
+        b16toh16 = cu_bswap16;
+        b32toh32 = cu_bswap32;
+        b64toh64 = cu_bswap64;
+    }
+    else if (cu_endian == BigEndian)
+    {
+        h16tol16 = cu_bswap16;
+        h32tol32 = cu_bswap32;
+        h64tol64 = cu_bswap64;
+        l16toh16 = cu_bswap16;
+        l32toh32 = cu_bswap32;
+        l64toh64 = cu_bswap64;
+    }
+
+    if (cu_endian != CU_NETWORK_ORDER)
+    {
+        h16ton16 = cu_bswap16;
+        h32ton32 = cu_bswap32;
+        h64ton64 = cu_bswap64;
+        n16toh16 = cu_bswap16;
+        n32toh32 = cu_bswap32;
+        n64toh64 = cu_bswap64;
+    }
 }
