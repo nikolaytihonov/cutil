@@ -36,7 +36,7 @@ struct cu_value_s {
 #define CU_VALUE_INT32()    {.type = Int32},
 #define CU_VALUE_INT64()    {.type = Int64},
 #define CU_VALUE_SEQUENCE(_size) \
-    {.type = Sequence, .sequence = {.size = (_size)},
+    {.type = Sequence, .sequence = {.size = (_size)}},
 #define CU_VALUE_ARRAY(_item, _count) \
     {.type = Array, .array = {.item = (_item), .count = (_count), .index = 0}},
 #define CU_VALUE_ARRAY_INDEX(_item, _index) \
