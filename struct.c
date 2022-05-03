@@ -15,7 +15,7 @@ uint value_size(struct cu_struct_s* st, uint idx, const void* in)
     {
     case NoValue: return 0;
     case Sequence: return value->sequence.size;
-    //case Array:
+    case Array: return value_array_size(st, idx, in);
     case Int8: return VALUE_INT8_SIZE;
     case Int16: return VALUE_INT16_SIZE;
     case Int32: return VALUE_INT32_SIZE;
@@ -57,10 +57,10 @@ void value_value(struct cu_struct_s* st, uint idx, const void* in, void* out)
 
 uint value_array_size(struct cu_struct_s* st, uint idx, const void* in)
 {
-    union intvalue_u size;
+    union intvalue_u count = {0};
     struct cu_value_s* value = &st->members[idx];
     if (value->array.index)
-    {
-        //struct_value(st, value->array.count, in, (uint8_t*))
-    }
+        value_get(st, value->array.count, in, &count);
+    else count.int32 = value->array.count;
+    return value->array.item * count.int32;
 }
