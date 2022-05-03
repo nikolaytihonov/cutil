@@ -4,6 +4,11 @@
 #include "cutypes.h"
 #include "endian.h"
 
+#define VALUE_INT8_SIZE     sizeof(uint8_t)
+#define VALUE_INT16_SIZE    sizeof(uint16_t)
+#define VALUE_INT32_SIZE    sizeof(uint32_t)
+#define VALUE_INT64_SIZE    sizeof(uint64_t)
+
 enum cu_value_type_e {
     NoValue,
     Sequence,
@@ -55,6 +60,9 @@ struct cu_struct_s {
 typedef void (*cu_value_process_t)(struct cu_value_s* type,
     uint8_t* in, uint8_t* out);
 
+uint struct_size(struct cu_struct_s* st, uint idx, uint8_t* in);
+uint struct_offset(struct cu_struct_s* st, uint idx, uint8_t* in);
+uint struct_value(struct cu_struct_s* st, uint idx, uint8_t* in, uint8_t* out);
 void struct_process(struct cu_struct_s* st, cu_value_process_t p,
     uint8_t* in, uint8_t* out);
 
