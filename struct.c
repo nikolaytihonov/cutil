@@ -1,7 +1,14 @@
 #include "struct.h"
 #include "cutil.h"
 
-uint struct_size(struct cu_struct_s* st, uint idx, uint8_t* in)
+union intvalue_u {
+    uint8_t int8;
+    uint16_t int16;
+    uint32_t int32;
+    uint64_t int64;
+};
+
+uint value_size(struct cu_struct_s* st, uint idx, const void* in)
 {
     struct cu_value_s* value = &st->members[idx];
     switch (value->type)
@@ -17,16 +24,43 @@ uint struct_size(struct cu_struct_s* st, uint idx, uint8_t* in)
     }
 }
 
-uint struct_offset(struct cu_struct_s* st, uint idx, uint8_t* in)
+uint value_offset(struct cu_struct_s* st, uint idx, const void* in)
 {
     uint offset = 0;
     do {
-        offset += struct_size(st, idx, in);
+        offset += value_size(st, idx, in);
     } while (idx--);
     return offset;
 }
 
-uint struct_value(struct cu_struct_s* st, uint idx, uint8_t* in, uint8_t* out)
+void value_value(struct cu_struct_s* st, uint idx, const void* in, void* out)
 {
-    
+    uint size = value_size(st, idx, in);
+    uint offset = value_offset(st, idx, in);
+    struct cu_value_s* value = &st->members[idx];
+    union intvalue_u* data = (union intvalue_u*)out;
+
+    if (size) cu_memcpy(out, in + offset, size);
+    else return;
+
+    if (st->endian != cu_endian)
+    {
+        switch (value->type)
+        {
+        case Int8: break;
+        case Int16: data->int16 = cu_bswap16(data->int16); break;
+        case Int32: data->int32 = cu_bswap32(data->int32); break;
+        case Int64: data->int64 = cu_bswap64(data->int64); break;
+        }
+    }
+}
+
+uint value_array_size(struct cu_struct_s* st, uint idx, const void* in)
+{
+    union intvalue_u size;
+    struct cu_value_s* value = &st->members[idx];
+    if (value->array.index)
+    {
+        //struct_value(st, value->array.count, in, (uint8_t*))
+    }
 }

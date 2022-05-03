@@ -58,12 +58,13 @@ struct cu_struct_s {
     {.type = Array, .array = {.item = (_item), .count = 0, .index = 0}},
 
 typedef void (*cu_value_process_t)(struct cu_value_s* type,
-    uint8_t* in, uint8_t* out);
+    const void* in, void* out);
 
-uint struct_size(struct cu_struct_s* st, uint idx, uint8_t* in);
-uint struct_offset(struct cu_struct_s* st, uint idx, uint8_t* in);
-uint struct_value(struct cu_struct_s* st, uint idx, uint8_t* in, uint8_t* out);
-void struct_process(struct cu_struct_s* st, cu_value_process_t p,
-    uint8_t* in, uint8_t* out);
+uint value_size(struct cu_struct_s* st, uint idx, const void* in);
+uint value_offset(struct cu_struct_s* st, uint idx, const void* in);
+void value_get(struct cu_struct_s* st, uint idx, const void* in, void* out);
+uint value_array_size(struct cu_struct_s* st, uint idx, const void* in);
+//void struct_process(struct cu_struct_s* st, cu_value_process_t p,
+//    uint8_t* in, uint8_t* out);
 
 #endif
