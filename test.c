@@ -101,6 +101,10 @@ int main()
 
     printf("[cutil]\n");
     printf("cutil_arch\t%u\n", CU_ARCH);
+    uint64_t val1 = 0;
+    printf("val1\t%u\tcu_memtest\t%p\n", val1, cu_memtest(&val1, sizeof(val1)));
+    char val2[] = {0,0,0,1,0,0,0,0,0,0,4,0,0};
+    printf("val2\tcu_memtest\t%p\n", cu_memtest(val2, sizeof(val2)));
 
     printf("[endian]\n");
     printf("cutil_endian\t%u\n", cu_endian);

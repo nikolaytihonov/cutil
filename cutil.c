@@ -24,3 +24,21 @@ void cutil_init()
 void cutil_exit()
 {
 }
+
+const void* cu_memtest(const void* mem, uint size)
+{
+    unsigned i;
+    for (i = 0; i < size / sizeof(uword); i++)
+    {
+        if (*(uword*)mem) return mem;
+        *(uword*)mem++;
+    }
+
+    for (i = 0; i < size % sizeof(uword); i++)
+    {
+        if (*(uint8_t*)mem) return mem;
+        *(uint8_t*)mem++;
+    }
+
+    return NULL;
+}
