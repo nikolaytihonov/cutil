@@ -4,4 +4,5 @@ C library to implement
 - bitmaps & bitwise operations
 - architecture-dependent & hardware features
 - byte-order endianness detection, byte-swapping
-- other stuff
+- structure object members mapping, dynamic processing, endianness auto-converting
+- dynamic-length structures, members sizes which are determined by mapping or run-time object member value
