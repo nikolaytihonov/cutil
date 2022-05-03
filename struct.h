@@ -38,7 +38,7 @@ struct cu_struct_s {
     struct cu_value_s members[];
 };
 
-#define CU_STRUCT(name) cu_struct_##name
+#define CU_STRUCT(name) &cu_struct_##name
 #define CU_STRUCT_BEGIN(_name, _endian)     \
     struct cu_struct_s cu_struct_##_name =  \
     {.endian = _endian, .members = {
@@ -57,14 +57,9 @@ struct cu_struct_s {
 #define CU_VALUE_ARRAY_ZERO(_item)  \
     {.type = Array, .array = {.item = (_item), .count = 0, .index = 0}},
 
-typedef void (*cu_value_process_t)(struct cu_value_s* type,
-    const void* in, void* out);
-
 uint value_size(struct cu_struct_s* st, uint idx, const void* in);
 uint value_offset(struct cu_struct_s* st, uint idx, const void* in);
 void value_get(struct cu_struct_s* st, uint idx, const void* in, void* out);
 uint value_array_size(struct cu_struct_s* st, uint idx, const void* in);
-//void struct_process(struct cu_struct_s* st, cu_value_process_t p,
-//    uint8_t* in, uint8_t* out);
 
 #endif

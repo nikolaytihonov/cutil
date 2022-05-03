@@ -8,7 +8,21 @@
 #include "endian.h"
 #include "struct.h"
 
-CU_STRUCT_BEGIN(test, LittleEndian)
+typedef uint8_t item_t[14];
+
+struct test_s {
+    uint8_t seq[6];
+    uint32_t array1[12];
+    uint16_t count;
+    item_t array2[5];
+} test = {
+    .seq = {0},
+    .array1 = {0},
+    .count = 5,
+    .array2 = {1, 2, 3, 4, 5}
+};
+
+CU_STRUCT_BEGIN(test_s, LittleEndian)
 CU_VALUE_SEQUENCE(6)
 CU_VALUE_ARRAY(4, 12)
 CU_VALUE_INT16()
@@ -90,6 +104,10 @@ int main()
     printf("cutil_endian\t%u\n", cu_endian);
     printf("%x\t%x\n", 0x12345678, l32toh32(0x12345678));
     printf("%lx\t%lx\n", 0x12345678abcd8765, h64ton64(0x12345678abcd8765));
+
+    printf("[struct]\n");
+    printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 0, &test));
+    printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 0, &test));
 
     cutil_exit();
     return 0;
