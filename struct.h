@@ -2,6 +2,7 @@
 #define __STRUCT_H
 
 #include "cutypes.h"
+#include "endian.h"
 
 enum cu_value_type_e {
     NoValue,
@@ -21,16 +22,23 @@ struct cu_value_s {
         } sequence;
         struct {
             uint item;
-            uint count : 31;
-            uint index : 1;
+            uint count  :   31;
+            uint index  :   1;
         } array;
     };
 };
 
-#define CU_STRUCT_BEGIN(name)   \
-    struct cu_value_s cu_struct_##name[] = {
+struct cu_struct_s {
+    enum cu_endian_e endian;
+    struct cu_value_s members[];
+};
+
+#define CU_STRUCT(name) cu_struct_##name
+#define CU_STRUCT_BEGIN(_name, _endian)     \
+    struct cu_struct_s cu_struct_##_name =  \
+    {.endian = _endian, .members = {
 #define CU_STRUCT_END() \
-    {.type = NoValue}};
+    {.type = NoValue}}};
 #define CU_VALUE_INT8()     {.type = Int8},
 #define CU_VALUE_INT16()    {.type = Int16}, 
 #define CU_VALUE_INT32()    {.type = Int32},
@@ -41,8 +49,13 @@ struct cu_value_s {
     {.type = Array, .array = {.item = (_item), .count = (_count), .index = 0}},
 #define CU_VALUE_ARRAY_INDEX(_item, _index) \
     {.type = Array, .array = {.item = (_item), .count = (_index), .index = 1}},
+#define CU_VALUE_ARRAY_ZERO(_item)  \
+    {.type = Array, .array = {.item = (_item), .count = 0, .index = 0}},
 
-typedef void (*cu_value_operate)(struct cu_value_s* type,
-    uint8_t** in, uint8_t** out);
+typedef void (*cu_value_process_t)(struct cu_value_s* type,
+    uint8_t* in, uint8_t* out);
+
+void struct_process(struct cu_struct_s* st, cu_value_process_t p,
+    uint8_t* in, uint8_t* out);
 
 #endif

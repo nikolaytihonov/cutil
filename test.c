@@ -6,6 +6,14 @@
 #include "array.h"
 #include "bitmap.h"
 #include "endian.h"
+#include "struct.h"
+
+CU_STRUCT_BEGIN(test, LittleEndian)
+CU_VALUE_SEQUENCE(6)
+CU_VALUE_ARRAY(4, 12)
+CU_VALUE_INT16()
+CU_VALUE_ARRAY_INDEX(14, 3)
+CU_STRUCT_END()
 
 int main()
 {
