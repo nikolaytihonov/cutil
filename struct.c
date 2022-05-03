@@ -33,7 +33,7 @@ uint value_offset(struct cu_struct_s* st, uint idx, const void* in)
     return offset;
 }
 
-void value_value(struct cu_struct_s* st, uint idx, const void* in, void* out)
+void value_get(struct cu_struct_s* st, uint idx, const void* in, void* out)
 {
     uint size = value_size(st, idx, in);
     uint offset = value_offset(st, idx, in);
