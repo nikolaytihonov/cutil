@@ -63,7 +63,20 @@ uint value_array_size(struct cu_struct_s* st, uint idx, const void* in)
         if (value->array.count != idx)
             value_get(st, value->array.count, in, &count);
     }
-    else count.int32 = value->array.count;
+    else if (value->array.count)
+    {
+        count.int32 = value->array.count;
+    }
+    else
+    {
+        const uint8_t* items = (const uint8_t*)in + value_offset(st, idx, in);
+        uint size = value->array.item;
+        while (cu_memtest(items, size))
+        {
+            items += size;
+            count.int32++;
+        }
+    }
     
     return value->array.item * count.int32;
 }

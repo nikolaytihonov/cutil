@@ -16,11 +16,13 @@ struct test_s {
     uint16_t count;
     item_t array2[5];
     uint64_t value;
+    char text[32];
 } __attribute__((packed)) test = {
     .seq = {0},
     .array1 = {0},
     .count = 5,
-    .value = 123456789
+    .value = 123456789,
+    .text = "Hello World"
 };
 
 CU_STRUCT_BEGIN(test_s, LittleEndian)
@@ -29,6 +31,7 @@ CU_VALUE_ARRAY(4, 12)
 CU_VALUE_INT16()
 CU_VALUE_ARRAY_INDEX(14, 2)
 CU_VALUE_INT64()
+CU_VALUE_ARRAY_ZERO(sizeof(char))
 CU_STRUCT_END()
 
 int main()
@@ -119,6 +122,8 @@ int main()
     printf("value\t%u\n", value);
     printf("struct_size\t%u\t%u\n", sizeof(struct test_s),
         struct_size(CU_STRUCT(test_s), &test));
+    printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 5, &test));
+    printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 5, &test));
 
     cutil_exit();
     return 0;
