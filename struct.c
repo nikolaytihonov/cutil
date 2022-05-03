@@ -27,9 +27,7 @@ uint value_size(struct cu_struct_s* st, uint idx, const void* in)
 uint value_offset(struct cu_struct_s* st, uint idx, const void* in)
 {
     uint offset = 0;
-    do {
-        offset += value_size(st, idx, in);
-    } while (idx--);
+    while (idx--) offset += value_size(st, idx, in);
     return offset;
 }
 

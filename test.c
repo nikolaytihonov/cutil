@@ -15,7 +15,7 @@ struct test_s {
     uint32_t array1[12];
     uint16_t count;
     item_t array2[5];
-} test = {
+} __attribute__((packed)) test = {
     .seq = {0},
     .array1 = {0},
     .count = 5,
@@ -106,8 +106,8 @@ int main()
     printf("%lx\t%lx\n", 0x12345678abcd8765, h64ton64(0x12345678abcd8765));
 
     printf("[struct]\n");
-    printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 0, &test));
-    printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 0, &test));
+    printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 1, &test));
+    printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 1, &test));
 
     cutil_exit();
     return 0;
