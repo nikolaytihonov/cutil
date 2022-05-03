@@ -57,8 +57,21 @@ uint value_array_size(struct cu_struct_s* st, uint idx, const void* in)
 {
     union intvalue_u count = {0};
     struct cu_value_s* value = &st->members[idx];
+    
     if (value->array.index)
-        value_get(st, value->array.count, in, &count);
+    {
+        if (value->array.count != idx)
+            value_get(st, value->array.count, in, &count);
+    }
     else count.int32 = value->array.count;
+    
     return value->array.item * count.int32;
+}
+
+uint struct_size(struct cu_struct_s* st, const void* in)
+{
+    uint idx = 0;
+    struct cu_value_s* value = st->members;
+    while ((value++)->type != NoValue) idx++;
+    return value_offset(st, idx, in);
 }

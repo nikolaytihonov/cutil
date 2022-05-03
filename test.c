@@ -15,18 +15,20 @@ struct test_s {
     uint32_t array1[12];
     uint16_t count;
     item_t array2[5];
+    uint64_t value;
 } __attribute__((packed)) test = {
     .seq = {0},
     .array1 = {0},
     .count = 5,
-    .array2 = {1, 2, 3, 4, 5}
+    .value = 123456789
 };
 
 CU_STRUCT_BEGIN(test_s, LittleEndian)
 CU_VALUE_SEQUENCE(6)
 CU_VALUE_ARRAY(4, 12)
 CU_VALUE_INT16()
-CU_VALUE_ARRAY_INDEX(14, 3)
+CU_VALUE_ARRAY_INDEX(14, 2)
+CU_VALUE_INT64()
 CU_STRUCT_END()
 
 int main()
@@ -106,8 +108,13 @@ int main()
     printf("%lx\t%lx\n", 0x12345678abcd8765, h64ton64(0x12345678abcd8765));
 
     printf("[struct]\n");
-    printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 1, &test));
-    printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 1, &test));
+    printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 4, &test));
+    printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 4, &test));
+    uint64_t value;
+    value_get(CU_STRUCT(test_s), 4, &test, &value);
+    printf("value\t%u\n", value);
+    printf("struct_size\t%u\t%u\n", sizeof(struct test_s),
+        struct_size(CU_STRUCT(test_s), &test));
 
     cutil_exit();
     return 0;

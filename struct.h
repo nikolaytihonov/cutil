@@ -62,4 +62,6 @@ uint value_offset(struct cu_struct_s* st, uint idx, const void* in);
 void value_get(struct cu_struct_s* st, uint idx, const void* in, void* out);
 uint value_array_size(struct cu_struct_s* st, uint idx, const void* in);
 
+uint struct_size(struct cu_struct_s* st, const void* in);
+
 #endif
