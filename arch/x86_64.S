@@ -68,13 +68,13 @@ cu_memtest:
     
     mov %rdi, %rcx
     shr $3, %rcx
-    je .testok
+    je .skipq
 .testq:
     lodsq
     test %rax, %rax
     jnz .testfail
     loop .testq
-
+.skipq:
     mov %rdi, %rcx
     and $7, %rcx
     je .testok
