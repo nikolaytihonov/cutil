@@ -27,4 +27,6 @@ void cutil_exit();
 extern const void* cu_memtest(const void* mem, uint size);
 extern void cu_memzero(void* dst, size_t size);
 
+void _cu_memmove(void* dst, void* src, size_t size);
+
 #endif

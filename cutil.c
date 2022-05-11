@@ -25,20 +25,30 @@ void cutil_exit()
 {
 }
 
-/*const void* cu_memtest(const void* mem, uint size)
+void _cu_memmove(void* dst, void* src, size_t size)
 {
-    unsigned i;
-    for (i = 0; i < size / sizeof(uword); i++)
+    if (dst > src)
     {
-        if (*(uword*)mem) return mem;
-        *(uword*)mem++;
+        uint d = (uword)dst - (uword)src;
+        src = (uint8_t*)src + size;
+        dst = (uint8_t*)dst + size; 
+        while (size)
+        {
+            src = (uint8_t*)src - d;
+            dst = (uint8_t*)dst - d;
+            cu_memcpy(dst, src, d);
+            size -= d; 
+        }
     }
-
-    for (i = 0; i < size % sizeof(uword); i++)
+    else if (dst < src)
     {
-        if (*(uint8_t*)mem) return mem;
-        *(uint8_t*)mem++;
+        uint d = (uword)src - (uword)dst;
+        while (size)
+        {
+            cu_memcpy(dst, src, d);
+            src = (uint8_t*)src + d;
+            dst = (uint8_t*)dst + d;
+            size -= d;
+        }
     }
-
-    return NULL;
-}*/
+}
