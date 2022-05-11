@@ -2,6 +2,7 @@
 C library to implement
 - data structures like linked-lists, vector arrays, maps
 - bitmaps & bitwise operations
+- assembler-level optimizations
 - architecture-dependent & hardware features
 - byte-order endianness detection, byte-swapping
 - structure object members mapping, dynamic processing, endianness auto-converting
