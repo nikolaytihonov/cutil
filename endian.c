@@ -46,29 +46,18 @@ static uint64_t sw_bswap64(uint64_t val)
 }
 
 #if (CU_ARCH == x86_32)
-static uint32_t hw_bswap32(uint32_t val)
-{
-    __asm__ ("bswap %0" : "=r" (val) : "r" (val));
-    return val;
-}
+extern uint16_t hw_bswap16(uint16_t val);
+extern uint32_t hw_bswap32(uint32_t val);
 
-bswap16_t cu_bswap16 = sw_bswap16;
+bswap16_t cu_bswap16 = hw_bswap16;
 bswap32_t cu_bswap32 = hw_bswap32;
 bswap64_t cu_bswap64 = sw_bswap64;
 #elif (CU_ARCH == x86_64)
-static uint32_t hw_bswap32(uint32_t val)
-{
-    __asm__ ("bswap %0" : "=r" (val) : "r" (val));
-    return val;
-}
+extern uint16_t hw_bswap16(uint16_t val);
+extern uint32_t hw_bswap32(uint32_t val);
+extern uint64_t hw_bswap64(uint64_t val);
 
-static uint64_t hw_bswap64(uint64_t val)
-{
-    __asm__ ("bswap %0" : "=r" (val) : "r" (val));
-    return val;
-}
-
-bswap16_t cu_bswap16 = sw_bswap16;
+bswap16_t cu_bswap16 = hw_bswap16;
 bswap32_t cu_bswap32 = hw_bswap32;
 bswap64_t cu_bswap64 = hw_bswap64;
 #else

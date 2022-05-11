@@ -111,8 +111,9 @@ int main()
 
     printf("[endian]\n");
     printf("cutil_endian\t%u\n", cu_endian);
-    printf("%x\t%x\n", 0x12345678, l32toh32(0x12345678));
-    printf("%lx\t%lx\n", 0x12345678abcd8765, h64ton64(0x12345678abcd8765));
+    printf("%x\t%x\n", 0x1234, cu_bswap16(0x1234));
+    printf("%x\t%x\n", 0x12345678, cu_bswap32(0x12345678));
+    printf("%lx\t%lx\n", 0x12345678abcd8765, cu_bswap64(0x12345678abcd8765));
 
     printf("[struct]\n");
     printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 4, &test));
