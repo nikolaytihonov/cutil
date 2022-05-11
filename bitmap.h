@@ -8,7 +8,7 @@
 #define bit_test(v, p) (!!(v&(1<<(p))))
 #define bit_sub2_up(v, p) ((v>>(p))+!!(v&((1<<(p))-1)))
 #define bit_align2(v, p) (bit_sub2_up(v, (p))<<(p))
-uint bit_log2(uint64_t value);
+uint bit_log2(u64 value);
 
 #define bitmap(name, s) uword name[bit_sub2_up(s, CU_WORD_POW2)] = {0}
 #define bitmap_set(m, p, b) \

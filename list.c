@@ -32,7 +32,7 @@ void list_add(list_t* list, uint size, void* data)
     cu_memset(node, '\0', nodeSize);
     if (data)
     {
-        cu_memcpy((uint8_t*)node + LIST_NODE_SIZE, data, size);
+        cu_memcpy((u8*)node + LIST_NODE_SIZE, data, size);
     }
 
     list_node_t* last = list->last;

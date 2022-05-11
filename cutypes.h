@@ -1,9 +1,6 @@
 #ifndef __CUTYPES_H
 #define __CUTYPES_H
 
-#include <stddef.h>
-#include <stdint.h>
-
 #define ARCH_UNKNOWN    0
 #define x86_64          1
 #define x86_32          2
@@ -95,21 +92,35 @@
 #   define CU_32BIT
 #endif
 
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef signed char i8;
+typedef signed short i16;
+typedef signed int i32;
+
 #if defined(CU_64BIT)
 #   define CU_WORD_BITS 64
 #   define CU_WORD_POW2 6
-typedef uint64_t uword;
-typedef int64_t iword;
+typedef unsigned long u64;
+typedef signed long i64;
+
+typedef unsigned long uword;
+typedef signed long iword;
 #elif defined(CU_32BIT)
 #   define CU_WORD_BITS 32
 #   define CU_WORD_POW2 5
-typedef uint32_t uword;
-typedef int32_t iword;
+typedef unsigned long long u64;
+typedef signed long long i64;
+
+typedef unsigned int uword;
+typedef signed int iword;
 #else
 #   warning "unknown bus width for arch " CU_ARCH
 #endif
 
-typedef uint32_t uint;
+typedef unsigned int uint;
 #define CU_UINT_SIZE sizeof(uint)
 
 typedef void* cu_ptr;

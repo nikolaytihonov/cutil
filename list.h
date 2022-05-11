@@ -6,12 +6,12 @@
 typedef struct list_node_s {
     struct list_node_s* prev;
     struct list_node_s* next;
-    uint8_t data[1];
+    u8 data[1];
 } list_node_t;
 
 #define LIST_NODE_SIZE (CU_PTR_SIZE * 2)
-#define LIST_NODE_PTR(data) ((uint8_t*)data - LIST_NODE_SIZE)
-#define LIST_NODE_DATA(node) ((uint8_t*)node + LIST_NODE_SIZE)
+#define LIST_NODE_PTR(data) ((u8*)data - LIST_NODE_SIZE)
+#define LIST_NODE_DATA(node) ((u8*)node + LIST_NODE_SIZE)
 #define LIST_NODE_VALUE(node, type) (*(type*)LIST_NODE_DATA(node))
 
 typedef struct {

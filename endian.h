@@ -10,9 +10,9 @@ enum cu_endian_e {
 
 extern enum cu_endian_e cu_endian;
 
-typedef uint16_t (*bswap16_t)(uint16_t);
-typedef uint32_t (*bswap32_t)(uint32_t);
-typedef uint64_t (*bswap64_t)(uint64_t);
+typedef u16 (*bswap16_t)(u16);
+typedef u32 (*bswap32_t)(u32);
+typedef u64 (*bswap64_t)(u64);
 
 extern bswap16_t cu_bswap16;
 extern bswap32_t cu_bswap32;

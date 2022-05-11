@@ -2,10 +2,10 @@
 #include "cutil.h"
 
 union intvalue_u {
-    uint8_t int8;
-    uint16_t int16;
-    uint32_t int32;
-    uint64_t int64;
+    u8 int8;
+    u16 int16;
+    u32 int32;
+    u64 int64;
 };
 
 uint value_size(struct cu_struct_s* st, uint idx, const void* in)
@@ -69,7 +69,7 @@ uint value_array_size(struct cu_struct_s* st, uint idx, const void* in)
     }
     else
     {
-        const uint8_t* items = (const uint8_t*)in + value_offset(st, idx, in);
+        const u8* items = (const u8*)in + value_offset(st, idx, in);
         uint size = value->array.item;
         while (cu_memtest(items, size))
         {

@@ -3,8 +3,8 @@
 enum cu_endian_e cu_endian;
 
 static const union {
-    uint8_t bytes[4];
-    uint32_t value;
+    u8 bytes[4];
+    u32 value;
 } host_order = {
     {0, 1, 2, 3}
 };
@@ -20,12 +20,12 @@ static enum cu_endian_e endian_detect()
         return BigEndian;
 }
 
-static uint16_t sw_bswap16(uint16_t val)
+static u16 sw_bswap16(u16 val)
 {
     return (val << 8) | (val >> 8);
 }
 
-static uint32_t sw_bswap32(uint32_t val)
+static u32 sw_bswap32(u32 val)
 {
     return  (val & 0xFF000000U) >> 24
         |   (val & 0x00FF0000U) >> 8
@@ -33,7 +33,7 @@ static uint32_t sw_bswap32(uint32_t val)
         |   (val & 0x000000FFU) << 24;
 }
 
-static uint64_t sw_bswap64(uint64_t val)
+static u64 sw_bswap64(u64 val)
 {
     return  (val & 0xFF00000000000000UL) >> 56
         |   (val & 0x00FF000000000000UL) >> 40
@@ -46,16 +46,16 @@ static uint64_t sw_bswap64(uint64_t val)
 }
 
 #if (CU_ARCH == x86_32)
-extern uint16_t hw_bswap16(uint16_t val);
-extern uint32_t hw_bswap32(uint32_t val);
+extern u16 hw_bswap16(u16 val);
+extern u32 hw_bswap32(u32 val);
 
 bswap16_t cu_bswap16 = hw_bswap16;
 bswap32_t cu_bswap32 = hw_bswap32;
 bswap64_t cu_bswap64 = sw_bswap64;
 #elif (CU_ARCH == x86_64)
-extern uint16_t hw_bswap16(uint16_t val);
-extern uint32_t hw_bswap32(uint32_t val);
-extern uint64_t hw_bswap64(uint64_t val);
+extern u16 hw_bswap16(u16 val);
+extern u32 hw_bswap32(u32 val);
+extern u64 hw_bswap64(u64 val);
 
 bswap16_t cu_bswap16 = hw_bswap16;
 bswap32_t cu_bswap32 = hw_bswap32;
@@ -66,17 +66,17 @@ bswap32_t cu_bswap32 = sw_bswap32;
 bswap64_t cu_bswap64 = sw_bswap64;
 #endif
 
-static uint16_t no_bswap16(uint16_t val)
+static u16 no_bswap16(u16 val)
 {
     return val;
 }
 
-static uint32_t no_bswap32(uint32_t val)
+static u32 no_bswap32(u32 val)
 {
     return val;
 }
 
-static uint64_t no_bswap64(uint64_t val)
+static u64 no_bswap64(u64 val)
 {
     return val;
 }

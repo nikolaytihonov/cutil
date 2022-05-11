@@ -13,7 +13,7 @@ typedef struct {
 void array_init(array_t* array, uint size, uint align);
 void array_clear(array_t* array);
 
-#define array_at(array, i) ((uint8_t*)(array)->mem + (i)*(array)->size)
+#define array_at(array, i) ((u8*)(array)->mem + (i)*(array)->size)
 #define array_first(array) array_at(array, 0)
 #define array_last(array) array_at(array, (array)->count - 1)
 

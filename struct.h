@@ -4,10 +4,10 @@
 #include "cutypes.h"
 #include "endian.h"
 
-#define VALUE_INT8_SIZE     sizeof(uint8_t)
-#define VALUE_INT16_SIZE    sizeof(uint16_t)
-#define VALUE_INT32_SIZE    sizeof(uint32_t)
-#define VALUE_INT64_SIZE    sizeof(uint64_t)
+#define VALUE_INT8_SIZE     sizeof(u8)
+#define VALUE_INT16_SIZE    sizeof(u16)
+#define VALUE_INT32_SIZE    sizeof(u32)
+#define VALUE_INT64_SIZE    sizeof(u64)
 
 enum cu_value_type_e {
     NoValue,
