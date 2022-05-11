@@ -4,6 +4,9 @@
 #include "cutypes.h"
 #include <stdlib.h>
 
+extern void* _cu_memset(void* dst, int val, size_t size);
+extern void* _cu_memcpy(void* dst, const void* src, size_t size);
+
 #define CUTIL_MALLOC malloc
 #define CUTIL_REALLOC realloc
 #define CUTIL_FREE free
@@ -22,5 +25,6 @@ void cutil_init();
 void cutil_exit();
 
 extern const void* cu_memtest(const void* mem, uint size);
+extern void cu_memzero(void* dst, size_t size);
 
 #endif

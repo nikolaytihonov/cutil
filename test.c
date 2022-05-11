@@ -109,6 +109,17 @@ int main()
     char val2[] = {0,0,0,1,0,0,0,0,0,0,4,0,0};
     printf("val2\tcu_memtest\t%p\n", cu_memtest(val2, sizeof(val2)));
 
+    uint val3[4] = {1, 2, 3, 4};
+    uint val4[4];
+
+    _cu_memcpy(val4, val3, sizeof(val3));
+    cu_memzero(val3, sizeof(val3));
+    printf("cu_memzero test\t%p\n", cu_memtest(val3, sizeof(val3)));
+    printf("val4 values\n");
+    for (unsigned i = 0; i < 4; i++)
+        printf("\t%u\n", val4[i]);
+    printf("\n");
+
     printf("[endian]\n");
     printf("cutil_endian\t%u\n", cu_endian);
     printf("%x\t%x\n", 0x1234, cu_bswap16(0x1234));
