@@ -25,7 +25,7 @@ void cutil_exit()
 {
 }
 
-const void* cu_memtest(const void* mem, uint size)
+/*const void* cu_memtest(const void* mem, uint size)
 {
     unsigned i;
     for (i = 0; i < size / sizeof(uword); i++)
@@ -41,4 +41,4 @@ const void* cu_memtest(const void* mem, uint size)
     }
 
     return NULL;
-}
+}*/
