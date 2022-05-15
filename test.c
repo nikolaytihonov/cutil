@@ -8,6 +8,7 @@
 #include "bitmap.h"
 #include "endian.h"
 #include "struct.h"
+#include "va_list.h"
 
 typedef uint8_t item_t[14];
 
@@ -34,6 +35,16 @@ CU_VALUE_ARRAY_INDEX(14, 2)
 CU_VALUE_INT64()
 CU_VALUE_ARRAY_ZERO(sizeof(char))
 CU_STRUCT_END()
+
+void va_test(int fixed, ...)
+{
+    cu_va_list va;
+    cu_va_start(&va);
+    
+    printf("va_test\n");
+    for (unsigned i = 0; i < 6; i++)
+        printf("\t%lu\n", cu_va_arg(&va, i));
+}
 
 int main()
 {
@@ -146,6 +157,9 @@ int main()
         struct_size(CU_STRUCT(test_s), &test));
     printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 5, &test));
     printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 5, &test));
+
+    printf("[va_list]\n");
+    va_test(1337, 1, 2, 3, 4, 5);
 
     cutil_exit();
     return 0;

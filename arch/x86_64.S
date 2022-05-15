@@ -6,6 +6,8 @@
 .globl _cu_memset
 .globl cu_memzero
 .globl cu_memtest
+.globl cu_va_start
+.globl cu_va_arg
 
 .text
 
@@ -113,4 +115,42 @@ cu_memtest:
     ret
 .testfail:
     mov %rsi, %rax
+    ret
+
+
+cu_va_start:
+    // RDI - va
+    mov %rsp, %rax
+    mov %rdi, %rsp
+    add $0x30, %rsp
+
+    push %r9
+    push %r8
+    push %rcx
+    push %rdx
+    push %rsi
+    push %rdi
+
+    mov %rax, %rsp
+    ret
+
+cu_va_arg:
+    // RDI - va, RSI - index
+    push %rbx
+    mov %rsi, %rbx
+    shl $3, %rbx
+
+    cmp $6, %rsi
+    jge .va_stack
+
+    mov (%rbx,%rdi),%rax
+
+    pop %rbx
+    ret
+.va_stack:
+    sub $0x30, %rbx
+    add $0x10, %rbx
+    mov (%rbx,%rbp),%rax
+
+    pop %rbx
     ret
