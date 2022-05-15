@@ -110,20 +110,20 @@ int main()
     char val2[] = {0,0,0,1,0,0,0,0,0,0,4,0,0};
     printf("val2\tcu_memtest\t%p\n", cu_memtest(val2, sizeof(val2)));
 
-    uint val3[4] = {1, 2, 3, 4};
-    uint val4[4];
+    uint val3[5] = {1, 2, 3, 4, 0};
+    uint val4[5];
 
     _cu_memcpy(val4, val3, sizeof(val3));
     cu_memzero(val3, sizeof(val3));
     printf("cu_memzero test\t%p\n", cu_memtest(val3, sizeof(val3)));
     printf("val4 values\n");
-    for (unsigned i = 0; i < 4; i++)
+    for (unsigned i = 0; i < 5; i++)
         printf("\t%u\n", val4[i]);
     printf("\n");
     
     _cu_memmove(&val4[1], &val4[0], sizeof(uint) * 3);
     printf("val4 memmove ->\n");
-    for (unsigned i = 0; i < 4; i++)
+    for (unsigned i = 0; i < 5; i++)
         printf("\t%u\n", val4[i]);
     printf("\n");
 

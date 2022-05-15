@@ -2,6 +2,7 @@
 .globl hw_bswap32
 .globl hw_bswap64
 .globl _cu_memcpy
+.globl _cu_memmove
 .globl _cu_memset
 .globl cu_memzero
 .globl cu_memtest
@@ -28,11 +29,55 @@ _cu_memcpy:
     // RDI - dst, RSI - src, RDX - size
     mov %rdx, %rcx
     shr $3, %rcx
+    je .cpy1
     rep movsq
-
+.cpy1:
     mov %rdx, %rcx
     and $7, %rcx
     rep movsb
+    ret
+
+_cu_memmove:
+    // RDI - dst, RSI - src, RDX - size
+    cmp %rsi, %rdi
+    je .retmove
+    jl .lessmove
+.greatermove:   // dst > src
+    add %rdx, %rdi
+    add %rdx, %rsi
+    std
+    mov %rdx, %rcx
+    shr $3, %rcx
+    je .greater1_
+    sub $8, %rdi
+    sub $8, %rsi
+    rep movsq
+.greater1:
+    add $8, %rdi
+    add $8, %rsi
+    mov %rdx, %rcx
+    and $7, %rcx
+    rep movsb
+    cld
+    jmp .retmove
+.greater1_:
+    dec %rdi
+    dec %rsi
+    mov %rdx, %rcx
+    and $7, %rcx
+    rep movsb
+    cld
+    jmp .retmove
+.lessmove:      // dst < src
+    mov %rdx, %rcx
+    shr $3, %rcx
+    je .less1
+    rep movsq
+.less1:
+    mov %rdx, %rcx
+    and $7, %rcx
+    rep movsb
+.retmove:
     ret
 
 _cu_memset:
@@ -41,8 +86,9 @@ _cu_memset:
 
     mov %rsi, %rcx
     shr $3, %rcx
+    je .set1
     rep stosq
-
+.set1:
     mov %rsi, %rcx
     and $7, %rcx
     rep stosb

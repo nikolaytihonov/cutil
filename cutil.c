@@ -25,7 +25,7 @@ void cutil_exit()
 {
 }
 
-void _cu_memmove(void* dst, void* src, size_t size)
+void __cu_memmove(void* dst, void* src, size_t size)
 {
     if (dst > src)
     {

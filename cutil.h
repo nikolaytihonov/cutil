@@ -6,6 +6,8 @@
 
 extern void* _cu_memset(void* dst, int val, size_t size);
 extern void* _cu_memcpy(void* dst, const void* src, size_t size);
+extern void* _cu_memmove(void* dst, void* src, size_t size);
+void __cu_memmove(void* dst, void* src, size_t size);
 
 #define CUTIL_MALLOC malloc
 #define CUTIL_REALLOC realloc
@@ -26,7 +28,5 @@ void cutil_exit();
 
 extern const void* cu_memtest(const void* mem, uint size);
 extern void cu_memzero(void* dst, size_t size);
-
-void _cu_memmove(void* dst, void* src, size_t size);
 
 #endif
