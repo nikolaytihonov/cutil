@@ -1,5 +1,6 @@
 # cutil
 C library to implement
+- variable arguments
 - data structures like linked-lists, vector arrays, maps
 - bitmaps & bitwise operations
 - assembler-level optimizations
