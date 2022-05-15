@@ -121,7 +121,10 @@ int main()
         printf("\t%u\n", val4[i]);
     printf("\n");
     
-    _cu_memmove(&val4[1], &val4[0], sizeof(uint) * 3);
+    void* dst = &val4[1];
+    void* src = &val4[0];
+    printf("memmove delta\t%lx\n", (uintptr_t)dst - (uintptr_t)src);
+    _cu_memmove(dst, src, sizeof(uint) * 3);
     printf("val4 memmove ->\n");
     for (unsigned i = 0; i < 5; i++)
         printf("\t%u\n", val4[i]);

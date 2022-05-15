@@ -46,36 +46,14 @@ _cu_memmove:
     add %rdx, %rdi
     add %rdx, %rsi
     std
-    mov %rdx, %rcx
-    shr $3, %rcx
-    je .greater1_
-    sub $8, %rdi
-    sub $8, %rsi
-    rep movsq
-.greater1:
-    add $8, %rdi
-    add $8, %rsi
-    mov %rdx, %rcx
-    and $7, %rcx
-    rep movsb
-    cld
-    jmp .retmove
-.greater1_:
     dec %rdi
     dec %rsi
     mov %rdx, %rcx
-    and $7, %rcx
     rep movsb
     cld
     jmp .retmove
 .lessmove:      // dst < src
     mov %rdx, %rcx
-    shr $3, %rcx
-    je .less1
-    rep movsq
-.less1:
-    mov %rdx, %rcx
-    and $7, %rcx
     rep movsb
 .retmove:
     ret
