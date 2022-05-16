@@ -9,6 +9,7 @@
 #include "endian.h"
 #include "struct.h"
 #include "va_list.h"
+#include "string.h"
 
 typedef uint8_t item_t[14];
 
@@ -164,6 +165,15 @@ int main()
 
     printf("[va_list]\n");
     va_test(1337, 1, 2, 3, 4, 5);
+
+    printf("[string]\n");
+    printf("cu_memcmp\t%u\n", cu_memcmp(val3, val3, sizeof(val3)));
+    
+    const char* str1 = "Hello World!";
+    char str2[32] = {0};
+    cu_strcpy(str2, str1);
+    printf("cu_strcpy\tstr2\t\"%s\"\n", str2);
+    printf("cu_strcmp\t%u\n", cu_strcmp(str2, str1));
 
     cutil_exit();
     return 0;
