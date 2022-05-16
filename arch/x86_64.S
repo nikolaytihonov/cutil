@@ -3,6 +3,7 @@
 .globl hw_bswap64
 .globl _cu_memcpy
 .globl _cu_memmove
+.globl _cu_memcmp
 .globl _cu_memset
 .globl cu_memzero
 .globl cu_memtest
@@ -58,6 +59,30 @@ _cu_memmove:
     mov %rdx, %rcx
     rep movsb
 .retmove:
+    ret
+
+_cu_memcmp:
+    mov %rdx, %rcx
+    shr $3, %rcx
+    jz .test1
+.cmp8:
+    cmpsq
+    jnz .not_equal
+    loop .cmp8
+.test1:
+    mov %rdx, %rcx
+    and $7, %rcx
+.cmp1:
+    cmpsb
+    jnz .not_equal
+    loop .cmp1
+    jmp .equal
+.not_equal:
+    xor %rax, %rax
+    inc %rax
+    ret
+.equal:
+    xor %rax, %rax
     ret
 
 _cu_memset:

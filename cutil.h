@@ -7,6 +7,8 @@
 extern void* _cu_memset(void* dst, int val, size_t size);
 extern void* _cu_memcpy(void* dst, const void* src, size_t size);
 extern void* _cu_memmove(void* dst, const void* src, size_t size);
+extern void* _cu_memcmp(const void* dst, const void* src, size_t size);
+
 void __cu_memmove(void* dst, void* src, size_t size);
 
 extern void* (*cu_malloc)(size_t);
@@ -15,6 +17,7 @@ extern void (*cu_free)(void*);
 extern void* (*cu_memset)(void*,int,size_t);
 extern void* (*cu_memcpy)(void*,const void*,size_t);
 extern void* (*cu_memmove)(void*,const void*,size_t);
+extern void* (*cu_memcmp)(const void*,const void*, size_t);
 
 void cutil_init();
 void cutil_exit();

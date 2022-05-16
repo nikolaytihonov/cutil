@@ -8,6 +8,7 @@ void (*cu_free)(void*) = NULL;
 void* (*cu_memset)(void*,int,size_t) = _cu_memset;
 void* (*cu_memcpy)(void*,const void*,size_t) = _cu_memcpy;
 void* (*cu_memmove)(void*,const void*,size_t) = _cu_memmove;
+void* (*cu_memcmp)(const void*,const void*, size_t) = _cu_memcmp;
 #else
 #   include <stdlib.h>
 #   include <string.h>
@@ -18,6 +19,7 @@ void (*cu_free)(void*) = free;
 void* (*cu_memset)(void*,int,size_t) = memset;
 void* (*cu_memcpy)(void*,const void*,size_t) = memcpy;
 void* (*cu_memmove)(void*,const void*,size_t) = memmove;
+void* (*cu_memcmp)(const void*,const void*, size_t) = memcmp;
 #endif
 
 void cutil_init()
