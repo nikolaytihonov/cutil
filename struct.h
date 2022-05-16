@@ -1,5 +1,5 @@
-#ifndef __STRUCT_H
-#define __STRUCT_H
+#ifndef __CUTIL_STRUCT_H
+#define __CUTIL_STRUCT_H
 
 #include "cutypes.h"
 #include "endian.h"

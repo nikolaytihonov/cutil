@@ -1,5 +1,5 @@
-#ifndef __BITMAP_H
-#define __BITMAP_H
+#ifndef __CUTIL_BITMAP_H
+#define __CUTIL_BITMAP_H
 
 #include "cutypes.h"
 

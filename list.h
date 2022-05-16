@@ -1,5 +1,5 @@
-#ifndef __LIST_H
-#define __LIST_H
+#ifndef __CUTIL_LIST_H
+#define __CUTIL_LIST_H
 
 #include "cutypes.h"
 

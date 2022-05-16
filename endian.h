@@ -1,5 +1,5 @@
-#ifndef __ENDIAN_H
-#define __ENDIAN_H
+#ifndef __CUTIL_ENDIAN_H
+#define __CUTIL_ENDIAN_H
 
 #include "cutypes.h"
 

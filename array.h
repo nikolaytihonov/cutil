@@ -1,5 +1,5 @@
-#ifndef __ARRAY_H
-#define __ARRAY_H
+#ifndef __CUTIL_ARRAY_H
+#define __CUTIL_ARRAY_H
 
 #include "cutypes.h"
 

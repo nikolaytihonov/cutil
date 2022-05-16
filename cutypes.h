@@ -1,5 +1,5 @@
-#ifndef __CUTYPES_H
-#define __CUTYPES_H
+#ifndef __CUTIL_TYPES_H
+#define __CUTIL_TYPES_H
 
 #define ARCH_UNKNOWN    0
 #define x86_64          1
