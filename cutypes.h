@@ -133,6 +133,9 @@ typedef void* cu_ptr;
 #   define ZERO 0
 typedef uword size_t;
 typedef iword ssize_t;
+#else
+#   include <stdint.h>
+#   include <stddef.h>
 #endif
 
 #endif
