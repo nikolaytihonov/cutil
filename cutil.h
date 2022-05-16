@@ -2,19 +2,12 @@
 #define __CUTIL_H
 
 #include "cutypes.h"
-#include <stdlib.h>
+
 
 extern void* _cu_memset(void* dst, int val, size_t size);
 extern void* _cu_memcpy(void* dst, const void* src, size_t size);
-extern void* _cu_memmove(void* dst, void* src, size_t size);
+extern void* _cu_memmove(void* dst, const void* src, size_t size);
 void __cu_memmove(void* dst, void* src, size_t size);
-
-#define CUTIL_MALLOC malloc
-#define CUTIL_REALLOC realloc
-#define CUTIL_FREE free
-#define CUTIL_MEMSET memset
-#define CUTIL_MEMCPY memcpy
-#define CUTIL_MEMMOVE memmove
 
 extern void* (*cu_malloc)(size_t);
 extern void* (*cu_realloc)(void*, size_t);

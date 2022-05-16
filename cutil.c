@@ -1,24 +1,28 @@
 #include "cutil.h"
 #include "endian.h"
-#include <string.h>
 
-void* (*cu_malloc)(size_t);
-void* (*cu_realloc)(void*, size_t);
-void (*cu_free)(void*) = CUTIL_FREE;
-void* (*cu_memset)(void*,int,size_t);
-void* (*cu_memcpy)(void*,const void*,size_t);
-void* (*cu_memmove)(void*,const void*,size_t);
+#ifdef CUTIL_NOSTDLIB
+void* (*cu_malloc)(size_t) = NULL;
+void* (*cu_realloc)(void*, size_t) = NULL;
+void (*cu_free)(void*) = NULL;
+void* (*cu_memset)(void*,int,size_t) = _cu_memset;
+void* (*cu_memcpy)(void*,const void*,size_t) = _cu_memcpy;
+void* (*cu_memmove)(void*,const void*,size_t) = _cu_memmove;
+#else
+#   include <stdlib.h>
+#   include <string.h>
+
+void* (*cu_malloc)(size_t) = malloc;
+void* (*cu_realloc)(void*, size_t) = realloc;
+void (*cu_free)(void*) = free;
+void* (*cu_memset)(void*,int,size_t) = memset;
+void* (*cu_memcpy)(void*,const void*,size_t) = memcpy;
+void* (*cu_memmove)(void*,const void*,size_t) = memmove;
+#endif
 
 void cutil_init()
 {
     cu_endian_init();
-
-    cu_malloc = CUTIL_MALLOC;
-    cu_realloc = CUTIL_REALLOC;
-    cu_free = CUTIL_FREE;
-    cu_memset = CUTIL_MEMSET;
-    cu_memcpy = CUTIL_MEMCPY;
-    cu_memmove = CUTIL_MEMMOVE;
 }
 
 void cutil_exit()

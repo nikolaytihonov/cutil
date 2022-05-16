@@ -48,6 +48,10 @@ void va_test(int fixed, ...)
 
 int main()
 {
+    cu_malloc = malloc;
+    cu_realloc = realloc;
+    cu_free = free;
+
     cutil_init();
     printf("[list]\n");
     list_t list;

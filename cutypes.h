@@ -128,4 +128,11 @@ typedef void* cu_ptr;
 
 #define cu_align(value, align) (((value / align) + !!(value % align))*align)
 
+#ifdef CUTIL_NOSTDLIB
+#   define NULL (void*)0
+#   define ZERO 0
+typedef uword size_t;
+typedef iword ssize_t;
+#endif
+
 #endif
