@@ -9,6 +9,7 @@ set(HEADERS
     bitmap.h
     endian.h
     struct.h
+    string.h
 )
 
 set(SOURCES
@@ -18,6 +19,7 @@ set(SOURCES
     bitmap.c
     endian.c
     struct.c
+    string.c
 )
 
 add_library(cutil STATIC ${SOURCES} ${HEADERS}
