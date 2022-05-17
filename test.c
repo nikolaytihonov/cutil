@@ -181,8 +181,8 @@ int main()
 
     const char* str4 = "\"test\" 2312";
     char str5[8] = {0};
-    int val5 = 0;
-    cu_sscanf((char*)str4, "\"%s\" %d", str5, &val5);
+    iword val5 = 0;
+    cu_sscanf((char*)str4, "\"%s\" %d", str5, 8, &val5);
     printf("cu_sscanf\t%s\t%u\n", str5, val5);
 
     cutil_exit();

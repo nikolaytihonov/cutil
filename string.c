@@ -353,7 +353,7 @@ void cu_sscanf(char* buf, char* fmt, ...)
     cu_va_start(&ap);
     
     uword idx;
-    uword len,maxLen;
+    uword len, maxLen;
     union {
         iword* iptr;
         uword* uptr;
