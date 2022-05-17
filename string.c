@@ -274,7 +274,7 @@ void cu_sprintf(char* dst, size_t maxLen, const char* fmt, ...)
     char* cur,*end,c;
     char numbuf[64];
     
-    idx = 1;
+    idx = 3;
     cur = dst;
     end = dst+maxLen;
     while((c = *fmt++) && cur != end)

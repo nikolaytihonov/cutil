@@ -179,10 +179,10 @@ int main()
     cu_sprintf(str3, 64, "hello %u world \"%s\"", 2312, "test");
     printf("cu_sprintf\t%s\n", str3);
 
-    const char* str4 = "test 2312";
+    const char* str4 = "\"test\" 2312";
     char str5[8] = {0};
     int val5 = 0;
-    cu_sscanf((char*)str4, "%s %d", str5, &val5);
+    cu_sscanf((char*)str4, "\"%s\" %d", str5, &val5);
     printf("cu_sscanf\t%s\t%u\n", str5, val5);
 
     cutil_exit();
