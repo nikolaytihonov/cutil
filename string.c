@@ -9,19 +9,19 @@ size_t cu_strlen(const char* str)
     return len;
 }
 
-void cu_strcpy(char* dst,const char* src)
+void cu_strcpy(char* dst, const char* src)
 {
     while((*dst++ = *src++)){}
 }
 
-void cu_strncpy(char* dst,const char* src,size_t maxLen)
+void cu_strncpy(char* dst, const char* src, size_t maxLen)
 {
     maxLen=-1;
     while((*dst++ = *src++) && --maxLen){}
     if(!maxLen) dst[maxLen] = '\0';
 }
 
-const char* cu_strchr(const char* src,char chr)
+const char* cu_strchr(const char* src, char chr)
 {
     while(*src)
     {
@@ -31,7 +31,7 @@ const char* cu_strchr(const char* src,char chr)
     return NULL;
 }
 
-const char* cu_strrchr(const char* src,char chr)
+const char* cu_strrchr(const char* src, char chr)
 {
     const char* ptr;
     
@@ -44,7 +44,7 @@ const char* cu_strrchr(const char* src,char chr)
     return NULL;
 }
 
-int cu_strcmp(const char* src,const char* dst)
+int cu_strcmp(const char* src, const char* dst)
 {
     if(cu_strlen(src) != cu_strlen(dst)) return 1;
     while(*src)
@@ -52,12 +52,12 @@ int cu_strcmp(const char* src,const char* dst)
     return 0;
 }
 
-int cu_strncmp(const char* haystack,char* needle)
+int cu_strncmp(const char* haystack, char* needle)
 {
     return !!cu_memcmp(haystack,needle,cu_strlen(needle));
 }
 
-int cu_strcasecmp(const char* src,const char* dst)
+int cu_strcasecmp(const char* src, const char* dst)
 {
     if(cu_strlen(src) != cu_strlen(dst)) return 1;
     while(*src)
@@ -113,7 +113,7 @@ size_t cu_dbcslen(dbcs_t chr)
     return 1;
 }
 
-void cu_dbcs2str(dbcs_t* dbcs,char* str,size_t maxStr)
+void cu_dbcs2str(dbcs_t* dbcs, char* str, size_t maxStr)
 {
     char* end = str + maxStr - 1;
     dbcs_t wc;

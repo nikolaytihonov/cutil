@@ -46,6 +46,6 @@ void cu_sprintf(char* dst, size_t maxLen, const char* fmt, ...);
 // example: cu_sscanf((char*)str4, "\"%s\" %d", str5, 8, &val5);
 // where %s is str5 buffer pointer and 8 is size of buffer
 // and &val5 is pointer to iword integer
-void cu_sscanf(char* buf, char* fmt,...);
+void cu_sscanf(char* buf, char* fmt, ...);
 
 #endif
