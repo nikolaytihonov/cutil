@@ -175,6 +175,16 @@ int main()
     printf("cu_strcpy\tstr2\t\"%s\"\n", str2);
     printf("cu_strcmp\t%u\n", cu_strcmp(str2, str1));
 
+    char str3[64] = {0};
+    cu_sprintf(str3, 64, "hello %u world \"%s\"", 2312, "test");
+    printf("cu_sprintf\t%s\n", str3);
+
+    const char* str4 = "test 2312";
+    char str5[8] = {0};
+    int val5 = 0;
+    cu_sscanf((char*)str4, "%s %d", str5, &val5);
+    printf("cu_sscanf\t%s\t%u\n", str5, val5);
+
     cutil_exit();
     return 0;
 }
