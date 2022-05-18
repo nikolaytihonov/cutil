@@ -24,8 +24,10 @@ set(SOURCES
     heap.c
 )
 
+set(ARCHITECTURE "AArch64" CACHE STRING "cutil target architecture")
+
 add_library(cutil STATIC ${SOURCES} ${HEADERS}
-    "arch/${CMAKE_SYSTEM_PROCESSOR}.S"
+    "arch/${ARCHITECTURE}.S"
 )
 
 option(NOSTDLIB "compile cutil without stdlib" ON)
@@ -35,4 +37,4 @@ if (NOSTDLIB)
 endif()
 
 add_executable(test test.c)
-target_link_libraries(test cutil)
+target_link_libraries(test -static cutil)
