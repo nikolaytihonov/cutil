@@ -130,6 +130,22 @@ _cu_memset:
     ret
 
 cu_memzero:
+    // x0 - dst, x1 - size
+    mov x2, x1, lsr #3
+    tst x2, x2
+    beq .zero1_
+.zero8:
+    str xzr, [x0], #8
+    subs x2, x2, #1
+    bne .zero8
+.zero1_:
+    and x2, x1, #7
+    beq .zero0
+.zero1:
+    strb wzr, [x0], #1
+    subs x2, x2, #1
+    bne .zero1
+.zero0:
     ret
 
 cu_memtest:
