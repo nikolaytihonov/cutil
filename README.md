@@ -6,6 +6,7 @@ C library to implement
 - assembler-level optimizations
 - architecture-dependent & hardware features
 - byte-order endianness detection, byte-swapping
+- dynamic memory allocator & internal heap management integrated
 - structure object members mapping, dynamic processing, endianness auto-converting
 - dynamic-length structures, members sizes which are determined by mapping or run-time object member value
 - string processing, independent implementations of sscanf (cu_sscanf) and sprintf (cu_sprintf)
