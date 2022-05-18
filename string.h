@@ -32,7 +32,7 @@ void cu_iprints(char* str, iword number);
 void cu_uprints(char* str, uword number);
 void cu_xprints(char* str, uword number);
 
-iword cu_atoi(char* str,int base);
+iword cu_atoi(char* str, int base);
 uword cu_atou(char* str, int base);
 
 // all integer arguments must be iword or uword, strings - pointers

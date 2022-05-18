@@ -120,6 +120,8 @@ typedef signed int iword;
 #   warning "unknown bus width for arch " CU_ARCH
 #endif
 
+#define CU_WORD_SIZE (CU_WORD_BITS/8)
+
 typedef unsigned int uint;
 #define CU_UINT_SIZE sizeof(uint)
 
@@ -137,5 +139,7 @@ typedef iword ssize_t;
 #   include <stdint.h>
 #   include <stddef.h>
 #endif
+
+#define cu_round2_up(val,bit) (((val>>bit) + !!(val&((1<<bit)-1)) ) << bit)
 
 #endif

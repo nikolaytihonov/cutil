@@ -10,6 +10,7 @@ set(HEADERS
     endian.h
     struct.h
     string.h
+    heap.h
 )
 
 set(SOURCES
@@ -20,6 +21,7 @@ set(SOURCES
     endian.c
     struct.c
     string.c
+    heap.c
 )
 
 add_library(cutil STATIC ${SOURCES} ${HEADERS}

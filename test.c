@@ -10,6 +10,7 @@
 #include "struct.h"
 #include "va_list.h"
 #include "string.h"
+#include "heap.h"
 
 typedef uint8_t item_t[14];
 
@@ -184,6 +185,21 @@ int main()
     iword val5 = 0;
     cu_sscanf((char*)str4, "\"%s\" %d", str5, 8, &val5);
     printf("cu_sscanf\t%s\t%u\n", str5, val5);
+
+    printf("[heap]\n");
+    static u8 heap_data[4096];
+    mheap_t heap;
+    heap_init(&heap, heap_data, 4096);
+
+    void* m1 = heap_alloc(&heap, 8);
+    void* m2 = heap_alloc(&heap, 32);
+    void* m3 = heap_alloc(&heap, 9);
+    heap_free(&heap, m2);
+    void* m4 = heap_alloc(&heap, 8);
+    printf("heap_alloc\t%p\n", m1);
+    printf("heap_alloc\t%p\n", m2);
+    printf("heap_alloc\t%p\n", m3);
+    printf("heap_alloc\t%p\n", m4);
 
     cutil_exit();
     return 0;
