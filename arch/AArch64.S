@@ -16,9 +16,11 @@ hw_bswap16:
     ret
 
 hw_bswap32:
+    rev w0, w0
     ret
 
 hw_bswap64:
+    rev x0, x0
     ret
 
 _cu_memcpy:
