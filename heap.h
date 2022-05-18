@@ -29,6 +29,7 @@ void heap_init(mheap_t* heap, void* data, uword size);
 void heap_join(mblock_t* start, int dir);
 void heap_split(mblock_t* block, size_t req_size);
 void* heap_alloc(mheap_t* heap, size_t size);
+void* heap_realloc(mheap_t* heap, void* mem, size_t size);
 void heap_free(mheap_t* heap, void* mem);
 
 #endif

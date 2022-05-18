@@ -1,4 +1,5 @@
 #include "heap.h"
+#include "cutil.h"
 
 static mblock_t* mblock_get_next(mblock_t* block)
 {
@@ -109,6 +110,19 @@ void* heap_alloc(mheap_t* heap, size_t size)
     if(prev && !prev->next) prev->next = block;
     
     return block->data;
+}
+
+void* heap_realloc(mheap_t* heap, void* mem, size_t size)
+{
+    mblock_t* block = (mblock_t*)((u8*)mem - MBLOCK_SIZE);
+    (void)heap;
+    
+    heap_free(heap, mem);
+    void* newMem = heap_alloc(heap, size);
+    if (mem != newMem)
+        cu_memcpy(newMem, mem, mblock_get_size(block));
+    
+    return newMem;
 }
 
 void heap_free(mheap_t* heap, void* mem)

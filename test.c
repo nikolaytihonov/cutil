@@ -200,6 +200,8 @@ int main()
     printf("heap_alloc\t%p\n", m2);
     printf("heap_alloc\t%p\n", m3);
     printf("heap_alloc\t%p\n", m4);
+    void* m5 = heap_realloc(&heap, m4, 10);
+    printf("heap_realloc\t%p\t%p\n", m4, m5);
 
     cutil_exit();
     return 0;
