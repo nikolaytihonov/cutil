@@ -163,6 +163,9 @@ int main()
     printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 5, &test));
     printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 5, &test));
 
+    char c0 = 0;
+    printf("cu_memset\tc0\t%p\n", cu_memtest(&c0, 1));
+
     printf("[va_list]\n");
     va_test(1337, 1, 2, 3, 4, 5);
 

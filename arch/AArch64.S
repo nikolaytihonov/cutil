@@ -149,6 +149,29 @@ cu_memzero:
     ret
 
 cu_memtest:
+    // x0 - src, x1 - size
+    mov x2, x1, lsr #3
+    tst x2, x2
+    beq .test1_
+.test8:
+    ldr x3, [x0], #8
+    cmp x3, xzr
+    bne .testnot
+    subs x2, x2, #1
+    bne .test8
+.test1_:
+    and x2, x1, #7
+    beq .testok
+.test1:
+    ldrb w3, [x0], #1
+    cmp w3, wzr
+    bne .testnot
+    subs x2, x2, #1
+    bne .test1
+.testok:
+    mov x0, xzr
+    ret
+.testnot:
     ret
 
 cu_va_start:
