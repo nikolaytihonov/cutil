@@ -73,6 +73,32 @@ _cu_memmove:
     ret
 
 _cu_memcmp:
+    // x0 - dst, x1 - src, x2 - size
+    mov x3, x2, lsr #3
+    tst x3, x3
+    beq .cmp1_
+.cmp8:
+    ldr x4, [x0], #8
+    ldr x5, [x1], #8
+    cmp x4, x5
+    bne .cmpnot
+    subs x3, x3, #1
+    bne .cmp8
+.cmp1_:
+    and x3, x2, #7
+    beq .cmpok
+.cmp1:
+    ldrb w4, [x0], #1
+    ldrb w5, [x1], #1
+    cmp w4, w5
+    bne .cmpnot
+    subs x3, x3, #1
+    bne .cmp1
+.cmpok:
+    mov x0, xzr
+    ret
+.cmpnot:
+    mov x0, #1
     ret
 
 _cu_memset:
