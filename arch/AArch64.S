@@ -13,6 +13,8 @@
 .text
 
 hw_bswap16:
+    rev w0, w0
+    mov w0, w0, lsr #16
     ret
 
 hw_bswap32:
@@ -24,6 +26,24 @@ hw_bswap64:
     ret
 
 _cu_memcpy:
+    // x0 - dst, x1 - src, x2 - size
+    mov x3, x2, lsr #3
+    tst x3, x3
+    beq .cpy1_
+.cpy8:
+    ldr x4, [x1], #8
+    str x4, [x0], #8
+    subs x3, x3, #1
+    bne .cpy8
+.cpy1_:
+    and x3, x2, #7
+    beq .cpy0
+.cpy1:
+    ldrb w4, [x1], #1
+    strb w4, [x0], #1
+    subs x3, x3, #1
+    bne .cpy1
+.cpy0:
     ret
 
 _cu_memmove:

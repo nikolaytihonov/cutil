@@ -53,6 +53,7 @@ u8 internal_heap[4096];
 int main()
 {
     cutil_init(internal_heap, 4096);
+
     printf("[list]\n");
     list_t list;
     list_init(&list);
