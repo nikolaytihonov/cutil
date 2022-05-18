@@ -102,6 +102,31 @@ _cu_memcmp:
     ret
 
 _cu_memset:
+    // x0 - dst, x1 - val, x2 - size
+    orr x4, x1, x1, lsl #0
+    orr x4, x4, x1, lsl #8
+    orr x4, x4, x1, lsl #16
+    orr x4, x4, x1, lsl #24
+    orr x4, x4, x1, lsl #32
+    orr x4, x4, x1, lsl #40
+    orr x4, x4, x1, lsl #48
+    orr x4, x4, x1, lsl #56
+
+    mov x3, x2, lsr #3
+    tst x3, x3
+    beq .set1_
+.set8:
+    str x4, [x0], #8
+    subs x3, x3, #1
+    bne .set8
+.set1_:
+    and x3, x2, #7
+    beq .set0
+.set1:
+    strb w4, [x0], #1
+    subs x3, x3, #1
+    bne .set1
+.set0:
     ret
 
 cu_memzero:
