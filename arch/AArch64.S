@@ -47,6 +47,29 @@ _cu_memcpy:
     ret
 
 _cu_memmove:
+    // x0 - dst, x1 - src, x2 - size
+    cmp x0, x1
+    beq .move0
+    blt .less1
+
+    add x0, x0, x2
+    add x1, x1, x2
+    sub x0, x0, #1
+    sub x1, x1, #1
+.greater1:
+    ldrb w3, [x1]
+    strb w3, [x0]
+    sub x0, x0, #1
+    sub x1, x1, #1
+    subs x2, x2, #1
+    bne .greater1
+    b .move0
+.less1:
+    ldrb w3, [x1], #1
+    strb w3, [x0], #1
+    subs x2, x2, #1
+    bne .less1
+.move0:
     ret
 
 _cu_memcmp:
