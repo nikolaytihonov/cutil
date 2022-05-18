@@ -19,7 +19,9 @@ extern void* (*cu_memcpy)(void*,const void*,size_t);
 extern void* (*cu_memmove)(void*,const void*,size_t);
 extern void* (*cu_memcmp)(const void*,const void*, size_t);
 
+void cutil_init(void* heap, size_t size);
 void cutil_init();
+
 void cutil_exit();
 
 extern const void* cu_memtest(const void* mem, uint size);

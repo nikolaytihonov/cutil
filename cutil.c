@@ -2,13 +2,37 @@
 #include "endian.h"
 
 #ifdef CUTIL_NOSTDLIB
-void* (*cu_malloc)(size_t) = NULL;
-void* (*cu_realloc)(void*, size_t) = NULL;
-void (*cu_free)(void*) = NULL;
+#   include "heap.h"
+mheap_t cu_heap;
+
+void* _cu_malloc(size_t size)
+{
+    return heap_alloc(&cu_heap, size);
+}
+
+void* _cu_realloc(void* mem, size_t size)
+{
+    return heap_realloc(&cu_heap, mem, size);
+}
+
+void _cu_free(void* mem)
+{
+    return heap_free(&cu_heap, mem);
+}
+
+void* (*cu_malloc)(size_t) = _cu_malloc;
+void* (*cu_realloc)(void*, size_t) = _cu_realloc;
+void (*cu_free)(void*) = _cu_free;
 void* (*cu_memset)(void*,int,size_t) = _cu_memset;
 void* (*cu_memcpy)(void*,const void*,size_t) = _cu_memcpy;
 void* (*cu_memmove)(void*,const void*,size_t) = _cu_memmove;
 void* (*cu_memcmp)(const void*,const void*, size_t) = _cu_memcmp;
+
+void cutil_init(void* heap, size_t size)
+{
+    heap_init(&cu_heap, heap, size);
+    cu_endian_init();
+}
 #else
 #   include <stdlib.h>
 #   include <string.h>
@@ -20,12 +44,12 @@ void* (*cu_memset)(void*,int,size_t) = memset;
 void* (*cu_memcpy)(void*,const void*,size_t) = memcpy;
 void* (*cu_memmove)(void*,const void*,size_t) = memmove;
 void* (*cu_memcmp)(const void*,const void*, size_t) = memcmp;
-#endif
 
-void cutil_init()
+void cutil_init(void* heap, size_t size)
 {
     cu_endian_init();
 }
+#endif
 
 void cutil_exit()
 {

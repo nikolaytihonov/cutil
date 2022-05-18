@@ -48,13 +48,11 @@ void va_test(int fixed, ...)
         printf("\t%lu\n", cu_va_arg(&va, i));
 }
 
+u8 internal_heap[4096];
+
 int main()
 {
-    cu_malloc = malloc;
-    cu_realloc = realloc;
-    cu_free = free;
-
-    cutil_init();
+    cutil_init(internal_heap, 4096);
     printf("[list]\n");
     list_t list;
     list_init(&list);
