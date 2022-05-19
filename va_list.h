@@ -5,7 +5,9 @@
 
 #if (CU_ARCH == x86_64)
 #   define VA_NUM   6
-#else
+#elif (CU_ARCH == AARCH64)
+#   define VA_NUM   8
+#elif
 #   define VA_NUM   0
 #endif
 

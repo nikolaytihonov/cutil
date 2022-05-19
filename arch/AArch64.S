@@ -175,7 +175,23 @@ cu_memtest:
     ret
 
 cu_va_start:
+    stp xzr, x1, [x0], #16
+    stp x2,  x3, [x0], #16
+    stp x4,  x5, [x0], #16
+    stp x6,  x7, [x0], #16
     ret
 
 cu_va_arg:
+    // x0 - va_list, x1 - index
+    mov x1, x1, lsl #3
+    cmp x1, #56
+    bgt .va_stack
+
+    add x0, x0, x1
+    ldr x0, [x0]
+    ret
+.va_stack:
+    sub x1, x1, #48
+    add x0, sp, x1
+    ldr x0, [x0]
     ret
