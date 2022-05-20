@@ -373,7 +373,7 @@ void cu_sscanf(char* buf, char* fmt, ...)
                 case 'u':
                 case 'd':
                     len = _cu_strchr_delim(buf,10);
-                    u.iptr = (i64*)(cu_va_arg(&ap,idx++));
+                    u.iptr = (iword*)(cu_va_arg(&ap,idx++));
                     *u.iptr = _cu_atoi(buf,10,len);
                     buf += len; //we decrement because it will +1
                     break;
@@ -381,7 +381,7 @@ void cu_sscanf(char* buf, char* fmt, ...)
                 case 'x':
                     buf += 2; //Skip 0x part
                     len = _cu_strchr_delim(buf,16);
-                    u.iptr = (i64*)(cu_va_arg(&ap,idx++));
+                    u.iptr = (iword*)(cu_va_arg(&ap,idx++));
                     *u.iptr = _cu_atoi(buf,16,len);
                     buf += len; //we decrement because it will +1
                     break;

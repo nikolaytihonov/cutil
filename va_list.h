@@ -7,7 +7,9 @@
 #   define VA_NUM   6
 #elif (CU_ARCH == AARCH64)
 #   define VA_NUM   8
-#elif
+#elif (defined(CU_ARCH_ARM7))
+#   define  VA_NUM  4
+#else
 #   define VA_NUM   0
 #endif
 

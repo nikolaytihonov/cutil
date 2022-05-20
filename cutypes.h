@@ -86,6 +86,14 @@
 #   warning "unknown architecture"
 #endif
 
+#ifdef CU_ARCH_ARM
+#   if (CU_ARCH >= ARM6T2 && CU_ARCH <= ARM6)
+#       define CU_ARCH_ARM6
+#   elif (CU_ARCH >= ARM7 <= CU_ARCH <= ARM7S)
+#       define CU_ARCH_ARM7
+#   endif
+#endif
+
 #if (CU_ARCH == x86_64 || CU_ARCH == AARCH64 || CU_ARCH == POWERPC64)
 #   define CU_64BIT
 #else
