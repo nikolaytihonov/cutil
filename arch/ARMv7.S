@@ -53,6 +53,27 @@ _cu_memcpy:
     bx lr
 
 _cu_memmove:
+    // r0 - dst, r1 - src, r2 - size
+    cmp r0, r1
+    beq .move0
+    blt .less1
+
+    add r0, r0, r2
+    add r1, r1, r2
+    sub r0, r0, #1
+    sub r1, r1, #1
+.greater1:
+    ldrb r3, [r1], #-1
+    strb r3, [r0], #-1
+    subs r2, r2, #1
+    bne .greater1
+    b .move0
+.less1:
+    ldrb r3, [r1], #1
+    strb r3, [r0], #1
+    subs r2, r2, #1
+    bne .less1
+.move0:
     bx lr
 
 _cu_memcmp:

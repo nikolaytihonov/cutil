@@ -36,6 +36,7 @@ if ("${ARCHITECTURE}" MATCHES "ARM*")
     else()
         string(TOLOWER "${ARCHITECTURE}" COMPILE_ARCHITECTURE)
         add_compile_options("-march=${COMPILE_ARCHITECTURE}-${ARM_PROFILE}")
+        add_compile_options("-marm")
     endif()
 endif()
 
