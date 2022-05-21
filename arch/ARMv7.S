@@ -13,9 +13,12 @@
 .text
 
 hw_bswap16:
+    rev r0, r0
+    mov r0, r0, lsr #16
     bx lr
 
 hw_bswap32:
+    rev r0, r0
     bx lr
 
 hw_bswap64:
