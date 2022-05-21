@@ -48,11 +48,19 @@ void va_test(int fixed, ...)
         printf("\t%lu\n", cu_va_arg(&va, i));
 }
 
+u64 u64_test(u64 first, u64 second)
+{
+    return first + second;
+}
+
 u8 internal_heap[4096];
 
 int main()
 {
     cutil_init(internal_heap, 4096);
+    cu_malloc = malloc;
+    cu_realloc = realloc;
+    cu_free = free;
 
     printf("[list]\n");
     list_t list;
@@ -102,6 +110,8 @@ int main()
     printf("[cutypes]\n");
     printf("uword\t%u\n", sizeof(uword) * 8);
     printf("uint\t%u\n", sizeof(uint) * 8);
+    printf("u64\t%u\n", sizeof(u64) * 8);
+    printf("u64_test\t%lu\n", u64_test(3, 4));
 
     printf("[bitmap]\n");
     printf("bit_align2\t%u\n", bit_align2(354, 3));
@@ -167,7 +177,7 @@ int main()
     printf("cu_memset\tc0\t%p\n", cu_memtest(&c0, 1));
 
     printf("[va_list]\n");
-    va_test(1337, 1, 2, 3, 4, 5);
+    //va_test(1337, 1, 2, 3, 4, 5);
 
     printf("[string]\n");
     printf("cu_memcmp\t%u\n", cu_memcmp(val3, val3, sizeof(val3)));
@@ -178,7 +188,7 @@ int main()
     printf("cu_strcpy\tstr2\t\"%s\"\n", str2);
     printf("cu_strcmp\t%u\n", cu_strcmp(str2, str1));
 
-    char str3[64] = {0};
+    /*char str3[64] = {0};
     cu_sprintf(str3, 64, "hello %u world \"%s\"", 2312, "test");
     printf("cu_sprintf\t%s\n", str3);
 
@@ -203,7 +213,7 @@ int main()
     printf("heap_alloc\t%p\n", m3);
     printf("heap_alloc\t%p\n", m4);
     void* m5 = heap_realloc(&heap, m4, 10);
-    printf("heap_realloc\t%p\t%p\n", m4, m5);
+    printf("heap_realloc\t%p\t%p\n", m4, m5);*/
 
     cutil_exit();
     return 0;

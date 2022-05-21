@@ -60,7 +60,7 @@ extern u64 hw_bswap64(u64 val);
 bswap16_t cu_bswap16 = hw_bswap16;
 bswap32_t cu_bswap32 = hw_bswap32;
 bswap64_t cu_bswap64 = hw_bswap64;
-#elif (CU_ARCH == AARCH64)
+#elif (defined(CU_ARCH_ARM))
 extern u16 hw_bswap16(u16 val);
 extern u32 hw_bswap32(u32 val);
 extern u64 hw_bswap64(u64 val);

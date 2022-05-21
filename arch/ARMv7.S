@@ -11,6 +11,7 @@
 .globl cu_va_arg
 
 .text
+.align 16
 
 hw_bswap16:
     rev r0, r0
@@ -22,9 +23,33 @@ hw_bswap32:
     bx lr
 
 hw_bswap64:
+    rev r2, r0
+    rev r0, r1
+    mov r0, r2
     bx lr
 
 _cu_memcpy:
+    // r0 - dst, r1 - src, r2 - size
+    str r4, [sp, #-4]!
+
+    mov r3, r2, lsr #2
+    tst r3, r3
+    beq .cpy1_
+.cpy4:
+    ldr r4, [r1], #4
+    str r4, [r0], #4
+    subs r3, r3, #1
+    bne .cpy4
+.cpy1_:
+    ands r3, r2, #3
+    beq .cpy0
+.cpy1:
+    ldrb r4, [r1], #1
+    strb r4, [r0], #1
+    subs r3, r3, #1
+    bne .cpy1
+.cpy0:
+    ldr r4, [sp], #4
     bx lr
 
 _cu_memmove:
