@@ -11,9 +11,9 @@ static mblock_t* mblock_by_data(void* data)
     return (mblock_t*)((u8*)data - MBLOCK_SIZE);
 }
 
-static u64 mblock_get_size(mblock_t* block)
+static size_t mblock_get_size(mblock_t* block)
 {
-    return MBLOCK_ALIGN_SIZE(block->size);
+    return MBLOCK_ALIGN_SIZE(block->size & ~MBLOCK_ATTR_ALLOC);
 }
 
 void heap_init(mheap_t* heap, void* data, uword size)
@@ -25,7 +25,7 @@ void heap_init(mheap_t* heap, void* data, uword size)
 void heap_join(mblock_t* start, int dir)
 {
     mblock_t* cur;
-    u64 blk_size;
+    size_t blk_size;
     
     blk_size = 0;
     cur = start;
@@ -62,7 +62,7 @@ void heap_split(mblock_t* block, size_t req_size)
     size_t tot_size = mblock_get_size(block);
     mblock_t* split;
     
-    block->size = (req_size)|MBLOCK_ATTR_ALLOC;
+    block->size = MBLOCK_ALIGN_SIZE(req_size)|MBLOCK_ATTR_ALLOC;
     split = mblock_get_next(block);
     
     //Init prev and next

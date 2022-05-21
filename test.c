@@ -58,9 +58,9 @@ u8 internal_heap[4096];
 int main()
 {
     cutil_init(internal_heap, 4096);
-    cu_malloc = malloc;
+    /*cu_malloc = malloc;
     cu_realloc = realloc;
-    cu_free = free;
+    cu_free = free;*/
 
     printf("[list]\n");
     list_t list;
@@ -116,6 +116,7 @@ int main()
     printf("[bitmap]\n");
     printf("bit_align2\t%u\n", bit_align2(354, 3));
     printf("bit_log2\t%u\n", bit_log2(34));
+    printf("cu_align2_up\t%u\n", cu_round2_up(354, 3));
     num = 5;
     bit_set(num, 1, 1);
     printf("bit_get\t%u\n", bit_get(num, 0));
