@@ -104,17 +104,81 @@ _cu_memcmp:
     pop {r4, r5}
     bx lr
 .cmpnot:
-    mov r0, #1
     pop {r4, r5}
     bx lr
 
 _cu_memset:
+    // r0 - dst, r1 - val, r2 - size
+    push {r4}
+
+    orr r4, r1, r1, lsl #0
+    orr r4, r4, r1, lsl #8
+    orr r4, r4, r1, lsl #16
+    orr r4, r4, r1, lsl #24
+
+    mov r3, r2, lsr #2
+    tst r3, r3
+    beq .set1_
+.set4:
+    str r4, [r0], #4
+    subs r3, r3, #1
+    bne .set4
+.set1_:
+    ands r3, r2, #3
+    beq .set0
+.set1:
+    strb r4, [r0], #1
+    subs r3, r3, #1
+    bne .set1
+.set0:
+    pop {r4}
     bx lr
 
 cu_memzero:
+    // r0 - dst, r1 - size
+    eor r3, r3, r3
+
+    mov r2, r1, lsr #2
+    tst r2, r2
+    beq .zero1_
+.zero4:
+    str r3, [r0], #4
+    subs r2, r2, #1
+    bne .zero4
+.zero1_:
+    ands r2, r1, #3
+    beq .zero0
+.zero1:
+    strb r3, [r0], #1
+    subs r2, r2, #1
+    bne .zero1
+.zero0:
     bx lr
 
 cu_memtest:
+    // r0 - src, r1 - size
+    mov r2, r1, lsr #2
+    tst r2, r2
+    beq .test1_
+.test4:
+    ldr r3, [r0], #4
+    tst r3, r3
+    bne .testnot
+    subs r2, r2, #1
+    bne .test4
+.test1_:
+    ands r2, r1, #3
+    beq .testok
+.test1:
+    ldrb r3, [r0], #1
+    tst r3, r3
+    bne .testnot
+    subs r2, r2, #1
+    bne .test1
+.testok:
+    eor r0, r0, r0
+    bx lr
+.testnot:
     bx lr
 
 cu_va_start:
