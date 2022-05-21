@@ -26,12 +26,13 @@ set(SOURCES
 
 set(ARCHITECTURE "ARMv7" CACHE STRING "cutil target architecture")
 set(ARM_PROCESSOR "cortex-m4" CACHE STRING "cutil ARM processor")
-set(ARM_PROFILE "m" CACHE STRING "cutil ARM architecture profile")
+set(ARM_PROFILE "a" CACHE STRING "cutil ARM architecture profile")
 
 if ("${ARCHITECTURE}" MATCHES "ARM*")
     if ("${ARM_PROFILE}" STREQUAL "m")
         add_compile_options("-mcpu=${ARM_PROCESSOR}")
         add_compile_options("-mthumb")
+        add_compile_options("-mfloat-abi=hard")
     else()
         string(TOLOWER "${ARCHITECTURE}" COMPILE_ARCHITECTURE)
         add_compile_options("-march=${COMPILE_ARCHITECTURE}-${ARM_PROFILE}")
