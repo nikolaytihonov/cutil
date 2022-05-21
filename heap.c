@@ -3,7 +3,7 @@
 
 static mblock_t* mblock_get_next(mblock_t* block)
 {
-    return (mblock_t*)((u8*)block+(block->size & ~7));
+    return (mblock_t*)((u8*)block+MBLOCK_ALIGN_SIZE(block->size));
 }
 
 static mblock_t* mblock_by_data(void* data)
@@ -13,7 +13,7 @@ static mblock_t* mblock_by_data(void* data)
 
 static u64 mblock_get_size(mblock_t* block)
 {
-    return block->size & ~7;
+    return MBLOCK_ALIGN_SIZE(block->size);
 }
 
 void heap_init(mheap_t* heap, void* data, uword size)
@@ -40,7 +40,7 @@ void heap_join(mblock_t* start, int dir)
     if(dir > 0)
     {
         start->next = cur;
-        start->size = blk_size & ~7;
+        start->size = MBLOCK_ALIGN_SIZE(blk_size);
         if(cur)
         {
             if(cur->next) cur->next->prev = start;
@@ -51,7 +51,7 @@ void heap_join(mblock_t* start, int dir)
         if(cur)
         {
             cur = cur->next;
-            cur->size = blk_size & ~7;
+            cur->size = MBLOCK_ALIGN_SIZE(blk_size);
             cur->next = start->next;
         }
     }
@@ -70,7 +70,7 @@ void heap_split(mblock_t* block, size_t req_size)
     split->next = block->next;
     block->next = split;
     
-    split->size = (tot_size-req_size) & ~7;
+    split->size = MBLOCK_ALIGN_SIZE(tot_size-req_size);
 }
 
 void* heap_alloc(mheap_t* heap, size_t size)

@@ -196,7 +196,7 @@ int main()
     char str5[8] = {0};
     iword val5 = 0;
     cu_sscanf((char*)str4, "\"%s\" %d", str5, 8, &val5);
-    printf("cu_sscanf\t%s\t%u\n", str5, val5);
+    printf("cu_sscanf\t%s\t%u\n", str5, val5);*/
 
     printf("[heap]\n");
     static u8 heap_data[4096];
@@ -213,7 +213,7 @@ int main()
     printf("heap_alloc\t%p\n", m3);
     printf("heap_alloc\t%p\n", m4);
     void* m5 = heap_realloc(&heap, m4, 10);
-    printf("heap_realloc\t%p\t%p\n", m4, m5);*/
+    printf("heap_realloc\t%p\t%p\n", m4, m5);
 
     cutil_exit();
     return 0;

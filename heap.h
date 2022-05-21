@@ -16,6 +16,8 @@ typedef struct {
 } mheap_t;
 
 #define MBLOCK_SIZE             (CU_WORD_SIZE*3)
+#define MBLOCK_SIZE_MASK        ((CU_WORD_BITS/8) - 1)
+#define MBLOCK_ALIGN_SIZE(size) ((size) & ~MBLOCK_SIZE_MASK)
 #define MBLOCK_ATTR_ALLOC       (1<<0)
 #define IS_MBLOCK_ALLOC(mblock) (mblock->size & MBLOCK_ATTR_ALLOC)
 
