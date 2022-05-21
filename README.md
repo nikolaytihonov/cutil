@@ -15,3 +15,4 @@ C library to implement
 ## supported architectures
 - x86-64
 - ARMv8 AArch64
+- ARMv7
