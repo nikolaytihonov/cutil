@@ -162,7 +162,7 @@ int main()
     printf("%x\t%x\n", 0x12345678, cu_bswap32(0x12345678));
     printf("%lx\t%lx\n", 0x12345678abcd8765, cu_bswap64(0x12345678abcd8765));
 
-    printf("[struct]\n");
+    /*printf("[struct]\n");
     printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 4, &test));
     printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 4, &test));
     uint64_t value;
@@ -172,7 +172,7 @@ int main()
         struct_size(CU_STRUCT(test_s), &test));
     printf("value_offset\t%u\n", value_offset(CU_STRUCT(test_s), 5, &test));
     printf("value_size\t%u\n", value_size(CU_STRUCT(test_s), 5, &test));
-
+    */
     char c0 = 0;
     printf("cu_memset\tc0\t%p\n", cu_memtest(&c0, 1));
 

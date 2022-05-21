@@ -77,6 +77,35 @@ _cu_memmove:
     bx lr
 
 _cu_memcmp:
+    push {r4, r5}
+
+    mov r3, r2, lsr #2
+    tst r3, r3
+    beq .cmp1_
+.cmp4:
+    ldr r4, [r0], #4
+    ldr r5, [r1], #4
+    cmp r4, r5
+    bne .cmpnot
+    subs r3, r3, #1
+    bne .cmp4
+.cmp1_:
+    ands r3, r2, #3
+    beq .cmpok
+.cmp1:
+    ldrb r4, [r0], #1
+    ldrb r5, [r1], #1
+    cmp r4, r5
+    bne .cmpnot
+    subs r3, r3, #1
+    bne .cmp1
+.cmpok:
+    eor r0, r0, r0
+    pop {r4, r5}
+    bx lr
+.cmpnot:
+    mov r0, #1
+    pop {r4, r5}
     bx lr
 
 _cu_memset:
