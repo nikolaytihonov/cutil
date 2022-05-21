@@ -182,7 +182,14 @@ cu_memtest:
     bx lr
 
 cu_va_start:
+    add r1, r11, #8
+    str r1, [r0]
     bx lr
 
 cu_va_arg:
+    // r0 - va_list, r1 - index
+    mov r1, r1, lsl #2
+    ldr r0, [r0]
+    add r0, r0, r1
+    ldr r0, [r0]
     bx lr

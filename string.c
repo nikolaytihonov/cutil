@@ -273,8 +273,11 @@ void cu_sprintf(char* dst, size_t maxLen, const char* fmt, ...)
     uword idx;
     char* cur,*end,c;
     char numbuf[64];
-    
+#ifdef CU_ARCH_ARM
+    idx = 0;
+#else
     idx = 3;
+#endif
     cur = dst;
     end = dst+maxLen;
     while((c = *fmt++) && cur != end)
@@ -360,8 +363,11 @@ void cu_sscanf(char* buf, char* fmt, ...)
         char* sptr;
     } u;
     char c,*stk;
-    
+#ifdef CU_ARCH_ARM
+    idx = 0;
+#else
     idx = 2;
+#endif
     while((c = *fmt))
     {
         //kprintf("%c %c\n",c,*buf);

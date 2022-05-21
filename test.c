@@ -177,7 +177,7 @@ int main()
     printf("cu_memset\tc0\t%p\n", cu_memtest(&c0, 1));
 
     printf("[va_list]\n");
-    //va_test(1337, 1, 2, 3, 4, 5);
+    va_test(1337, 1, 2, 3, 4, 5);
 
     printf("[string]\n");
     printf("cu_memcmp\t%u\n", cu_memcmp(val3, val3, sizeof(val3)));
@@ -188,7 +188,7 @@ int main()
     printf("cu_strcpy\tstr2\t\"%s\"\n", str2);
     printf("cu_strcmp\t%u\n", cu_strcmp(str2, str1));
 
-    /*char str3[64] = {0};
+    char str3[64] = {0};
     cu_sprintf(str3, 64, "hello %u world \"%s\"", 2312, "test");
     printf("cu_sprintf\t%s\n", str3);
 
@@ -196,7 +196,7 @@ int main()
     char str5[8] = {0};
     iword val5 = 0;
     cu_sscanf((char*)str4, "\"%s\" %d", str5, 8, &val5);
-    printf("cu_sscanf\t%s\t%u\n", str5, val5);*/
+    printf("cu_sscanf\t%s\t%u\n", str5, val5);
 
     printf("[heap]\n");
     static u8 heap_data[4096];

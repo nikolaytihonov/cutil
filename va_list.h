@@ -13,9 +13,15 @@
 #   define VA_NUM   0
 #endif
 
+#ifdef CU_ARCH_X86
 typedef struct {
     uword args[VA_NUM];
 } cu_va_list;
+#elif (defined(CU_ARCH_ARM))
+typedef struct {
+    uword fp;
+} cu_va_list;
+#endif
 
 extern void cu_va_start(cu_va_list* va);
 extern uword cu_va_arg(cu_va_list* va, unsigned idx);
