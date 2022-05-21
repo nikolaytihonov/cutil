@@ -25,16 +25,21 @@ set(SOURCES
 )
 
 set(ARCHITECTURE "ARMv7" CACHE STRING "cutil target architecture")
+set(ARM_PROCESSOR "cortex-m4" CACHE STRING "cutil ARM processor")
 set(ARM_PROFILE "m" CACHE STRING "cutil ARM architecture profile")
 
-if ("${ARCHITECTURE}" STREQUAL "ARMv7")
+if ("${ARCHITECTURE}" MATCHES "ARM*")
     if ("${ARM_PROFILE}" STREQUAL "m")
-        add_compile_options("-mcpu=cortex-m4")
+        add_compile_options("-mcpu=${ARM_PROCESSOR}")
         add_compile_options("-mthumb")
     else()
-        add_compile_options("-march=armv7-${ARM_PROFILE}")
+        string(TOLOWER "${ARCHITECTURE}" COMPILE_ARCHITECTURE)
+        add_compile_options("-march=${COMPILE_ARCHITECTURE}-${ARM_PROFILE}")
     endif()
 endif()
+
+add_compile_definitions(ARM_PROCESSOR="${ARM_PROCESSOR}")
+add_compile_definitions(ARM_PROFILE="${ARM_PROFILE}")
 
 add_library(cutil STATIC ${SOURCES} ${HEADERS}
     "arch/${ARCHITECTURE}.S"
