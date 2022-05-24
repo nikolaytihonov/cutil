@@ -1,138 +1,93 @@
 #include "heap.h"
 #include "cutil.h"
 
-static mblock_t* mblock_get_next(mblock_t* block)
+void heap_init(mheap_t* heap, void* start, uword size)
 {
-    return (mblock_t*)((u8*)block+MBLOCK_ALIGN_SIZE(block->size));
-}
-
-static mblock_t* mblock_by_data(void* data)
-{
-    return (mblock_t*)((u8*)data - MBLOCK_SIZE);
-}
-
-static size_t mblock_get_size(mblock_t* block)
-{
-    return MBLOCK_ALIGN_SIZE(block->size & ~MBLOCK_ATTR_ALLOC);
-}
-
-void heap_init(mheap_t* heap, void* data, uword size)
-{
-    heap->data = data;
+    heap->start = start;
     heap->size = size;
+
+    mblock_t* block = (mblock_t*)heap->start;
+    block->prev = NULL;
+    block->size = size;
 }
 
-void heap_join(mblock_t* start, int dir)
+void heap_split(mblock_t* block, uword size)
 {
-    mblock_t* cur;
-    size_t blk_size;
-    
-    blk_size = 0;
-    cur = start;
-    while(cur != NULL && !IS_MBLOCK_ALLOC(cur))
-    {
-        blk_size += mblock_get_size(cur);
-        cur->size = 0;
-        if(dir > 0) cur = cur->next;
-        else if(dir < 0) cur = cur->prev;
-    }
-    
-    if(dir > 0)
-    {
-        start->next = cur;
-        start->size = MBLOCK_ALIGN_SIZE(blk_size);
-        if(cur)
-        {
-            if(cur->next) cur->next->prev = start;
-        }
-    }
-    else if(dir < 0)
-    {
-        if(cur)
-        {
-            cur = cur->next;
-            cur->size = MBLOCK_ALIGN_SIZE(blk_size);
-            cur->next = start->next;
-        }
-    }
-}
-
-void heap_split(mblock_t* block, size_t req_size)
-{
-    size_t tot_size = mblock_get_size(block);
-    mblock_t* split;
-    
-    block->size = MBLOCK_ALIGN_SIZE(req_size)|MBLOCK_ATTR_ALLOC;
-    split = mblock_get_next(block);
-    
-    //Init prev and next
+    mblock_t* split = (mblock_t*)((u8*)block + size);
     split->prev = block;
-    split->next = block->next;
-    block->next = split;
-    
-    split->size = MBLOCK_ALIGN_SIZE(tot_size-req_size);
+    split->size = block->size - size;
+    block->size = size;
 }
 
-void* heap_alloc(mheap_t* heap, size_t size)
+void heap_join(mblock_t* block, mblock_t* other)
 {
-    mblock_t* start,*block,*prev;
-    size = cu_round2_up((size + MBLOCK_SIZE), MBLOCK_ALIGN);
-    
-    /*for(i = 0; i < heap->heapsz; i++)
+    if (block < other)
     {
-        start = (mblock_t*)((u8*)heap->heap+(i<<21));
-        if(!(start->size & MBLOCK_ATTR_ALLOC_2MB)) break;
+        mblock_t* next = (mblock_t*)((u8*)other + other->size);
+        next->prev = block;
+        block->size += other->size;
     }
-    if(i == heap->heapsz) return NULL;*/
-    start = (mblock_t*)heap->data;
-    
-    //Find free block
-    prev = NULL;
-    block = start;
-    do {
-        if((!IS_MBLOCK_ALLOC(block) && mblock_get_size(block) >= size)
-            || block->size == 0)
-            break;
-        prev = block;
-        if(block->next) block = block->next;
-        else break;
-    } while(block);
-    if(prev == block) prev = NULL;
-    //Allocate
-    if(block->size == 0) //Unformatted
+    else if (block > other)
     {
-        block->size = size|MBLOCK_ATTR_ALLOC;
-        block->prev = prev;
-        block->next = mblock_get_next(block);
+        mblock_t* next = (mblock_t*)((u8*)block + block->size);
+        next->prev = other;
+        other->size += block->size;
     }
-    else heap_split(block,size);
-    
-    if(prev && !prev->next) prev->next = block;
-    
-    return block->data;
 }
 
-void* heap_realloc(mheap_t* heap, void* mem, size_t size)
+mblock_t* heap_alloc(mheap_t* heap, uword _size)
 {
-    mblock_t* block = (mblock_t*)((u8*)mem - MBLOCK_SIZE);
-    (void)heap;
-    
-    heap_free(heap, mem);
-    void* newMem = heap_alloc(heap, size);
-    if (mem != newMem)
-        cu_memcpy(newMem, mem, mblock_get_size(block));
-    
-    return newMem;
+    uword size = cu_round2_up(_size + sizeof(mblock_t), MBLOCK_ALIGN);
+    mblock_t* block = (mblock_t*)((u8*)heap->start);
+    mblock_t* end = (mblock_t*)((u8*)heap->start + heap->size);
+    while ((block->size & MBLOCK_ALLOCATED) || MBLOCK_SIZE(block->size) < size)
+    {
+        block = (mblock_t*)((u8*)block + MBLOCK_SIZE(block->size));
+        if (block >= end) return NULL;
+    }
+
+    if (block->size > size)
+    {
+        heap_split(block, size);
+    }
+
+    block->size |= MBLOCK_ALLOCATED;
+    return block;
 }
 
-void heap_free(mheap_t* heap, void* mem)
+void heap_free(mblock_t* block)
 {
-    mblock_t* block = (mblock_t*)((u8*)mem - MBLOCK_SIZE);
-    (void)heap;
-    
-    //Unlink
-    block->size &= ~MBLOCK_ATTR_ALLOC;
-    //Link free blocks prev and next
-    heap_join(block,1);
-    heap_join(block,-1);
+    block->size &= ~MBLOCK_ALLOCATED;
+    mblock_t* prev = block->prev;
+    mblock_t* next = (mblock_t*)((u8*)block + block->size);
+    if (!(prev->size & MBLOCK_ALLOCATED))
+        heap_join(block, prev);
+    if (!(next->size & MBLOCK_ALLOCATED))
+        heap_join(block, next);
+}
+
+mblock_t* heap_realloc(mheap_t* heap, mblock_t* block, uword _size)
+{
+    block->size &= ~MBLOCK_ALLOCATED;
+    uword size = cu_round2_up(_size, MBLOCK_ALIGN);
+    mblock_t* next = (mblock_t*)((u8*)block + block->size);
+    mblock_t* new;
+    if (!(next->size & MBLOCK_ALLOCATED) && next->size >= size)
+    {
+        new = block;
+        heap_join(new, next);
+        heap_split(new, size);
+        new->size |= MBLOCK_ALLOCATED;
+    }
+    else
+    {
+        heap_free(block);
+        new = heap_alloc(heap, size);
+        if (new)
+        {
+            cu_memcpy((u8*)new + sizeof(mblock_t),
+                (u8*)block + sizeof(mblock_t), size - sizeof(mblock_t));
+        }
+    }
+    return new;
 }

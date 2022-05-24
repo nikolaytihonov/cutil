@@ -7,17 +7,20 @@ mheap_t cu_heap;
 
 void* _cu_malloc(size_t size)
 {
-    return heap_alloc(&cu_heap, size);
+    mblock_t* block =  heap_alloc(&cu_heap, size);
+    return block ? (u8*)block + sizeof(mblock_t) : NULL;
 }
 
 void* _cu_realloc(void* mem, size_t size)
 {
-    return heap_realloc(&cu_heap, mem, size);
+    mblock_t* block = heap_realloc(&cu_heap,
+        (mblock_t*)((u8*)mem - sizeof(mblock_t)), size);
+    return block ? (u8*)block + sizeof(mblock_t) : NULL;
 }
 
 void _cu_free(void* mem)
 {
-    return heap_free(&cu_heap, mem);
+    return heap_free((mblock_t*)((u8*)mem - sizeof(mblock_t)));
 }
 
 void* (*cu_malloc)(size_t) = _cu_malloc;

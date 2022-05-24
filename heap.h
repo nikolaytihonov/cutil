@@ -3,35 +3,30 @@
 
 #include "cutypes.h"
 
-typedef struct mblock_s {
-    struct mblock_s* prev;
-    struct mblock_s* next;
-    uword size;
-    u8 data[1];
-} mblock_t;
-
 typedef struct {
-    u8* data;
+    void* start;
     uword size;
 } mheap_t;
 
+typedef struct {
+    void* prev;
+    uword size;
+} mblock_t;
+
+#define MBLOCK_ALLOCATED    (1<<0)
+#define MBLOCK_SIZE(size)   ((size) & ~MBLOCK_ALLOCATED)
+
 #ifdef CU_64BIT
-#   define  MBLOCK_ALIGN    5
-#else
 #   define  MBLOCK_ALIGN    4
+#else
+#   define  MBLOCK_ALIGN    3
 #endif
 
-#define MBLOCK_SIZE             (CU_WORD_SIZE*3)
-#define MBLOCK_SIZE_MASK        ((CU_WORD_BITS/8) - 1)
-#define MBLOCK_ALIGN_SIZE(size) (cu_round2_up((size), MBLOCK_ALIGN))
-#define MBLOCK_ATTR_ALLOC       (1<<0)
-#define IS_MBLOCK_ALLOC(mblock) (mblock->size & MBLOCK_ATTR_ALLOC)
-
-void heap_init(mheap_t* heap, void* data, uword size);
-void heap_join(mblock_t* start, int dir);
-void heap_split(mblock_t* block, size_t req_size);
-void* heap_alloc(mheap_t* heap, size_t size);
-void* heap_realloc(mheap_t* heap, void* mem, size_t size);
-void heap_free(mheap_t* heap, void* mem);
+void heap_init(mheap_t* heap, void* start, uword size);
+void heap_split(mblock_t* block, uword size);
+void heap_join(mblock_t* block, mblock_t* other);
+mblock_t* heap_alloc(mheap_t* heap, uword _size);
+void heap_free(mblock_t* block);
+mblock_t* heap_realloc(mheap_t* heap, mblock_t* block, uword _size);
 
 #endif
