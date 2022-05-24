@@ -215,7 +215,7 @@ int main()
     printf("cu_sscanf\t%s\t%u\n", str5, val5);
 
     printf("[heap]\n");
-    static u8 heap_data[4096];
+    static u8 heap_data[128];
     mheap_t heap;
     heap_init(&heap, heap_data, 4096);
 
