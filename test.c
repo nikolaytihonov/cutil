@@ -207,7 +207,7 @@ int main()
     void* m1 = heap_alloc(&heap, 8);
     void* m2 = heap_alloc(&heap, 32);
     void* m3 = heap_alloc(&heap, 9);
-    heap_free(m2);
+    heap_free(&heap, m2);
     void* m4 = heap_alloc(&heap, 8);
     printf("heap_alloc\t%p\n", m1);
     printf("heap_alloc\t%p\n", m2);

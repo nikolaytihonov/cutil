@@ -55,14 +55,15 @@ mblock_t* heap_alloc(mheap_t* heap, uword _size)
     return block;
 }
 
-void heap_free(mblock_t* block)
+void heap_free(mheap_t* heap, mblock_t* block)
 {
     block->size &= ~MBLOCK_ALLOCATED;
     mblock_t* prev = block->prev;
     mblock_t* next = (mblock_t*)((u8*)block + block->size);
-    if (!(prev->size & MBLOCK_ALLOCATED))
+    mblock_t* end = (mblock_t*)((u8*)heap->start + heap->size);
+    if (prev && !(prev->size & MBLOCK_ALLOCATED))
         heap_join(block, prev);
-    if (!(next->size & MBLOCK_ALLOCATED))
+    if (next < end && !(next->size & MBLOCK_ALLOCATED))
         heap_join(block, next);
 }
 
@@ -81,7 +82,7 @@ mblock_t* heap_realloc(mheap_t* heap, mblock_t* block, uword _size)
     }
     else
     {
-        heap_free(block);
+        heap_free(heap, block);
         new = heap_alloc(heap, size);
         if (new)
         {

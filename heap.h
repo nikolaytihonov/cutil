@@ -26,7 +26,7 @@ void heap_init(mheap_t* heap, void* start, uword size);
 void heap_split(mblock_t* block, uword size);
 void heap_join(mblock_t* block, mblock_t* other);
 mblock_t* heap_alloc(mheap_t* heap, uword _size);
-void heap_free(mblock_t* block);
+void heap_free(mheap_t* heap, mblock_t* block);
 mblock_t* heap_realloc(mheap_t* heap, mblock_t* block, uword _size);
 
 #endif

@@ -20,7 +20,7 @@ void* _cu_realloc(void* mem, size_t size)
 
 void _cu_free(void* mem)
 {
-    return heap_free((mblock_t*)((u8*)mem - sizeof(mblock_t)));
+    return heap_free(&cu_heap, (mblock_t*)((u8*)mem - sizeof(mblock_t)));
 }
 
 void* (*cu_malloc)(size_t) = _cu_malloc;
