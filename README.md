@@ -13,6 +13,6 @@ C library to implement
 - string processing, independent implementations of sscanf (cu_sscanf) and sprintf (cu_sprintf)
 - text converting multi-byte (UTF-8) character set to double-byte character set and vise-versa
 ## supported architectures
-- x86-64
-- ARMv8 AArch64
-- ARMv7
+- x86-64        (tested on real hardware)
+- ARMv8 AArch64 (tested on real hardware)
+- ARMv7         (tested on real hardware)
