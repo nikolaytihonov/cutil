@@ -55,6 +55,20 @@ u64 u64_test(u64 first, u64 second)
 
 u8 internal_heap[4096];
 
+static void heap_debug(mheap_t* heap)
+{
+    mblock_t* block = (mblock_t*)((uint8_t*)heap->start);
+    mblock_t* end = (mblock_t*)((uint8_t*)heap->start + heap->size);
+    printf("heap\t%p\t%p\n", block, end);
+    while (block < end && MBLOCK_SIZE(block->size))
+    {
+        printf("block\t%p\t%u\n", block, block->size);
+        block = (mblock_t*)((uint8_t*)block + MBLOCK_SIZE(block->size));
+    }
+}
+
+extern mheap_t cu_heap;
+
 int main()
 {
     cutil_init(internal_heap, 4096);
@@ -96,6 +110,7 @@ int main()
     uint num = 42;
     array_remove(&array, 0);
     array_insert(&array, 1, &num);
+    heap_debug(&cu_heap);
 
     CU_ARRAY_FOREACH(&array)
     {

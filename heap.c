@@ -70,7 +70,7 @@ void heap_free(mheap_t* heap, mblock_t* block)
 mblock_t* heap_realloc(mheap_t* heap, mblock_t* block, uword _size)
 {
     block->size &= ~MBLOCK_ALLOCATED;
-    uword size = cu_round2_up(_size, MBLOCK_ALIGN);
+    uword size = cu_round2_up(_size + sizeof(mblock_t), MBLOCK_ALIGN);
     mblock_t* next = (mblock_t*)((u8*)block + block->size);
     mblock_t* new;
     if (!(next->size & MBLOCK_ALLOCATED) && next->size >= size)
