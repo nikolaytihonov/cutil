@@ -58,31 +58,3 @@ void cutil_init(void* heap, size_t size)
 void cutil_exit()
 {
 }
-
-void __cu_memmove(void* dst, void* src, size_t size)
-{
-    if (dst > src)
-    {
-        uint d = (uword)dst - (uword)src;
-        src = (u8*)src + size;
-        dst = (u8*)dst + size; 
-        while (size)
-        {
-            src = (u8*)src - d;
-            dst = (u8*)dst - d;
-            cu_memcpy(dst, src, d);
-            size -= d; 
-        }
-    }
-    else if (dst < src)
-    {
-        uint d = (uword)src - (uword)dst;
-        while (size)
-        {
-            cu_memcpy(dst, src, d);
-            src = (u8*)src + d;
-            dst = (u8*)dst + d;
-            size -= d;
-        }
-    }
-}
