@@ -24,7 +24,7 @@ set(SOURCES
     heap.c
 )
 
-set(ARCHITECTURE "SuperH4" CACHE STRING "cutil target architecture")
+set(ARCHITECTURE "x86_64" CACHE STRING "cutil target architecture")
 
 set(ARM_PROCESSOR "cortex-m4" CACHE STRING "cutil ARM processor")
 set(ARM_PROFILE "a" CACHE STRING "cutil ARM architecture profile")
@@ -45,13 +45,15 @@ if ("${ARCHITECTURE}" MATCHES "ARM*")
 elseif("${ARCHITECTURE}" MATCHES "SuperH4")
     set(CUSTOM_STDLIB "/opt/sh4-platform/lib" CACHE STRING "custom stdlib path")
     add_compile_options("-m4")
+else()
+    set(CUSTOM_STDLIB "" CACHE STRING "custom stdlib path")
 endif()
 
 add_library(cutil STATIC ${SOURCES} ${HEADERS}
     "arch/${ARCHITECTURE}.S"
 )
 
-option(NOSTDLIB "compile cutil without stdlib" ON)
+option(NOSTDLIB "compile cutil without stdlib" OFF)
 option(STATIC "compile test static" OFF)
 if (NOSTDLIB)
     target_compile_definitions(cutil PRIVATE CUTIL_NOSTDLIB)

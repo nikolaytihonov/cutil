@@ -1,9 +1,10 @@
 #include "cutil.h"
 #include "endian.h"
+#include "heap.h"
+
+mheap_t cu_heap;
 
 #ifdef CUTIL_NOSTDLIB
-#   include "heap.h"
-mheap_t cu_heap;
 
 void* _cu_malloc(size_t size)
 {
@@ -29,7 +30,7 @@ void (*cu_free)(void*) = _cu_free;
 void* (*cu_memset)(void*,int,size_t) = _cu_memset;
 void* (*cu_memcpy)(void*,const void*,size_t) = _cu_memcpy;
 void* (*cu_memmove)(void*,const void*,size_t) = _cu_memmove;
-void* (*cu_memcmp)(const void*,const void*, size_t) = _cu_memcmp;
+int (*cu_memcmp)(const void*,const void*, size_t) = _cu_memcmp;
 
 void cutil_init(void* heap, size_t size)
 {
@@ -46,7 +47,7 @@ void (*cu_free)(void*) = free;
 void* (*cu_memset)(void*,int,size_t) = memset;
 void* (*cu_memcpy)(void*,const void*,size_t) = memcpy;
 void* (*cu_memmove)(void*,const void*,size_t) = memmove;
-void* (*cu_memcmp)(const void*,const void*, size_t) = memcmp;
+int (*cu_memcmp)(const void*,const void*, size_t) = memcmp;
 
 void cutil_init(void* heap, size_t size)
 {
