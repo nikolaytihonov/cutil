@@ -24,11 +24,15 @@ set(SOURCES
     heap.c
 )
 
-set(ARCHITECTURE "ARMv7" CACHE STRING "cutil target architecture")
+set(ARCHITECTURE "SuperH4" CACHE STRING "cutil target architecture")
+
 set(ARM_PROCESSOR "cortex-m4" CACHE STRING "cutil ARM processor")
 set(ARM_PROFILE "a" CACHE STRING "cutil ARM architecture profile")
 
 if ("${ARCHITECTURE}" MATCHES "ARM*")
+    set(CUSTOM_STDLIB "" CACHE STRING "custom stdlib path")
+    add_compile_definitions(ARM_PROCESSOR="${ARM_PROCESSOR}")
+    add_compile_definitions(ARM_PROFILE="${ARM_PROFILE}")
     if ("${ARM_PROFILE}" STREQUAL "m")
         add_compile_options("-mcpu=${ARM_PROCESSOR}")
         add_compile_options("-mthumb")
@@ -38,20 +42,28 @@ if ("${ARCHITECTURE}" MATCHES "ARM*")
         add_compile_options("-march=${COMPILE_ARCHITECTURE}-${ARM_PROFILE}")
         add_compile_options("-marm")
     endif()
+elseif("${ARCHITECTURE}" MATCHES "SuperH4")
+    set(CUSTOM_STDLIB "/opt/sh4-platform/lib" CACHE STRING "custom stdlib path")
+    add_compile_options("-m4")
 endif()
-
-add_compile_definitions(ARM_PROCESSOR="${ARM_PROCESSOR}")
-add_compile_definitions(ARM_PROFILE="${ARM_PROFILE}")
 
 add_library(cutil STATIC ${SOURCES} ${HEADERS}
     "arch/${ARCHITECTURE}.S"
 )
 
 option(NOSTDLIB "compile cutil without stdlib" ON)
+option(STATIC "compile test static" OFF)
 if (NOSTDLIB)
     target_compile_definitions(cutil PRIVATE CUTIL_NOSTDLIB)
     target_compile_options(cutil PRIVATE "-nostdlib")
 endif()
 
+if(NOT "${CUSTOM_STDLIB}" STREQUAL "")
+    add_compile_options("-nostdlib")
+    set(CMAKE_EXE_LINKER_FLAGS "-L${CUSTOM_STDLIB} -l:libc.so.6")
+elseif (STATIC)
+    add_link_options(-static)    
+endif()
+
 add_executable(test test.c)
-target_link_libraries(test -static cutil)
+target_link_libraries(test cutil)

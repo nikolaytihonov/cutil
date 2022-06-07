@@ -21,6 +21,10 @@ typedef struct {
 typedef struct {
     uword fp;
 } cu_va_list;
+#elif (defined(CU_ARCH_SUPERH))
+typedef struct {
+    uword fp;
+} cu_va_list;
 #endif
 
 extern void cu_va_start(cu_va_list* va);
